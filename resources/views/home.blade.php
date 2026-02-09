@@ -9,7 +9,7 @@
     <h1 class="text-5xl md:text-8xl font-extrabold text-white tracking-tighter leading-none mb-8">
         Welcome to <br/>
         <span class="bg-gradient-to-b from-white to-zinc-500 bg-clip-text text-transparent italic">
-            My Project.
+            My Space.
         </span>
     </h1>
 
