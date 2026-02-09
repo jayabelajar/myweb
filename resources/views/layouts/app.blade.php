@@ -37,6 +37,7 @@
                 radial-gradient(800px 500px at 50% 120%, rgba(244, 63, 94, 0.06), transparent 60%);
         }
 
+
         /* Smooth Anchor Scroll Offset */
         html {
             scroll-padding-top: 100px; /* Agar anchor link tidak tertutup header */
@@ -45,8 +46,8 @@
         /* Custom Grid Background */
         .grid-bg {
             background-image:
-                linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-                linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+                linear-gradient(to right, rgba(0,0,0,0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.08) 1px, transparent 1px);
             background-size: 40px 40px;
             mask-image: radial-gradient(circle at 50% 0%, black 40%, transparent 100%);
             -webkit-mask-image: radial-gradient(circle at 50% 0%, black 40%, transparent 100%);
@@ -57,6 +58,46 @@
         .ambient-glow {
             background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.10), transparent 70%); /* Emerald hint */
             filter: blur(80px);
+        }
+
+        /* Floating Chat */
+        .float-chat {
+            position: fixed;
+            right: 20px;
+            bottom: 22px;
+            z-index: 60;
+        }
+        .float-chat__btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(10px);
+            color: #e5e7eb;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            transition: transform .2s ease, border-color .2s ease, background .2s ease;
+        }
+        .float-chat__btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.25);
+            background: rgba(16,16,16,0.95);
+        }
+        .float-chat__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            background: #25D366;
+            display: grid;
+            place-items: center;
+            color: #0b2513;
+        }
+        .float-chat__text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e5e7eb;
         }
     </style>
 </head>
@@ -253,7 +294,6 @@
                 <div class="md:col-span-3">
                     <h3 class="text-white font-semibold text-xs uppercase tracking-widest mb-6">Company</h3>
                     <ul class="flex flex-col gap-3 text-sm text-zinc-500">
-                        <li><a href="{{ route('home') }}" class="hover:text-white transition-colors duration-200">Home</a></li>
                         <li><a href="{{ route('projects') }}" class="hover:text-white transition-colors duration-200">Projects</a></li>
                         <li><a href="{{ route('workflow') }}" class="hover:text-white transition-colors duration-200">Workflow</a></li>
                         <li><a href="{{ route('teams') }}" class="hover:text-white transition-colors duration-200">Teams</a></li>
@@ -334,5 +374,15 @@
             });
         });
     </script>
+
+    {{-- Floating Chat --}}
+    <div class="float-chat">
+        <a class="float-chat__btn" href="https://wa.me/6285859400250" target="_blank" rel="noopener noreferrer">
+            <span class="float-chat__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12.04 2C6.55 2 2.1 6.448 2.1 11.937c0 2.097.552 4.143 1.598 5.952L2 22l4.215-1.664a9.88 9.88 0 0 0 5.825 1.865h.004c5.488 0 9.937-4.448 9.937-9.937S17.528 2 12.04 2zm5.746 14.386c-.243.684-1.404 1.31-1.935 1.385-.503.072-1.133.102-1.828-.116-.42-.133-.959-.31-1.655-.61-2.917-1.262-4.823-4.19-4.971-4.385-.148-.194-1.19-1.58-1.19-3.01 0-1.43.75-2.134 1.016-2.427.266-.292.58-.365.773-.365.194 0 .387.002.557.01.178.01.416-.068.652.498.243.58.83 2.004.903 2.15.073.146.122.316.024.51-.098.194-.146.316-.292.487-.146.171-.308.383-.439.514-.146.146-.298.306-.128.6.17.292.755 1.244 1.622 2.014 1.115.99 2.056 1.297 2.348 1.442.292.146.463.122.633-.073.17-.194.73-.852.924-1.144.194-.292.387-.243.65-.146.266.098 1.68.794 1.967.94.292.146.487.219.558.341.073.122.073.706-.17 1.39z"/></svg>
+            </span>
+            <span class="float-chat__text">Chat on WhatsApp</span>
+        </a>
+    </div>
 </body>
 </html>
