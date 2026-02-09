@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Argeswara' }}</title>
+
+        <title>
+            @hasSection('title')
+                @yield('title') | Argeswara Pradana
+            @else
+                Argeswara Pradana | Web Developer Portfolio
+            @endif
+        </title>
+
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,8 +27,9 @@
             background-image: radial-gradient(circle at 50% -20%, #111, #000);
         }
         .grid-bg {
-            background-image: linear-gradient(to right, #111 1px, transparent 1px),
-                              linear-gradient(to bottom, #111 1px, transparent 1px);
+            background-image:
+                linear-gradient(to right, #111 1px, transparent 1px),
+                linear-gradient(to bottom, #111 1px, transparent 1px);
             background-size: 40px 40px;
         }
         .blur-glow {
@@ -42,7 +51,9 @@
                 <svg viewBox="0 0 76 65" fill="none" class="h-4 w-auto text-white">
                     <path d="M37.5273 0L75.0546 65H0L37.5273 0Z" fill="currentColor"/>
                 </svg>
-                <span class="text-white font-semibold tracking-tight text-sm uppercase">Argeswara</span>
+                <span class="text-white font-semibold tracking-tight text-sm uppercase">
+                    Argeswara
+                </span>
             </div>
 
             <div class="flex gap-6 text-[11px] font-medium uppercase tracking-wider">
@@ -54,17 +65,17 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6">
+    <main class="max-w-5xl mx-auto px-6 pt-24">
         @yield('content')
     </main>
 
     <footer class="py-20 border-t border-white/5 text-center">
-
         <div class="flex justify-center gap-6 mb-8 text-[11px] text-zinc-500">
             <a href="#" class="hover:text-white transition underline decoration-zinc-800">GitHub</a>
             <a href="#" class="hover:text-white transition underline decoration-zinc-800">LinkedIn</a>
             <a href="#" class="hover:text-white transition underline decoration-zinc-800">Twitter</a>
         </div>
+
         <p class="text-[12px] text-zinc-700 font-medium">
             &copy; {{ date('Y') }} Argeswara. All rights reserved.
         </p>
