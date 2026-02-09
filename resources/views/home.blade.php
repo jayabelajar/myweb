@@ -14,7 +14,7 @@
     </h1>
 
     <p class="text-lg md:text-xl text-zinc-400 max-w-2xl font-light leading-relaxed mb-10">
-        I'm <span class="text-white font-medium">Argeswara Pradana K.</span>, a
+        I'm <span class="text-white font-medium">Argeswara Pradana K.</span>
         <span class="text-zinc-200">Web Developer</span>
         yang fokus membangun aplikasi web modern, cepat, dan scalable menggunakan
         teknologi Laravel, Tailwind CSS, dan JavaScript.
