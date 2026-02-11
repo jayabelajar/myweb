@@ -11,10 +11,10 @@
             Workflow
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6">
-            Workflow <span class="text-zinc-500">Overview.</span>
+            <span data-typing="Workflow " data-typing-start="100"></span><span class="text-zinc-500" data-typing="Overview." data-typing-delay="500"></span>
         </h1>
         <p class="text-zinc-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-            Proses yang transparan dan terukur agar hasil konsisten, timeline jelas, dan kualitas tetap terjaga di setiap tahap.
+            <span data-typing="Proses yang transparan dan terukur agar hasil konsisten, timeline jelas, dan kualitas tetap terjaga di setiap tahap." data-typing-delay="600"></span>
         </p>
     </div>
 

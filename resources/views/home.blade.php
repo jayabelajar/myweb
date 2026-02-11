@@ -36,6 +36,28 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    /* Stats Animation */
+    .stat-card {
+        transform: translateY(8px);
+        opacity: 0;
+        transition: transform .6s ease, opacity .6s ease, background-color .3s ease;
+    }
+    .stat-card.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .stat-number {
+        text-shadow: 0 0 18px rgba(255,255,255,0.15);
+    }
+    .stat-card:hover .stat-number {
+        text-shadow: 0 0 28px rgba(16,185,129,0.35);
+    }
+    @keyframes stat-pop {
+        0% { transform: scale(1); }
+        40% { transform: scale(1.06); }
+        100% { transform: scale(1); }
+    }
 </style>
 
 <section class="flex flex-col items-center justify-center">
@@ -57,15 +79,14 @@
 
     {{-- Headline --}}
     <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-6 text-white text-center max-w-5xl mx-auto">
-        Build with confidence <br class="hidden md:block" />
-        <span class="bg-gradient-to-b from-white via-white to-zinc-600 bg-clip-text text-transparent">
-         for long-term impact.
+        <span data-typing="Build with confidence " data-typing-start="100"></span><br class="hidden md:block" />
+        <span class="bg-gradient-to-b from-white via-white to-zinc-600 bg-clip-text text-transparent" data-typing="for long-term impact." data-typing-delay="500" style="--caret-color:#ffffff;">
         </span>
     </h1>
 
     {{-- Subheadline --}}
     <p class="text-lg md:text-xl text-zinc-400 max-w-2xl text-center font-light leading-relaxed mb-8 mx-auto">
-        Kami membantu tim membangun produk digital yang rapi, aman, dan terukur dengan fokus pada kualitas, stabilitas, dan performa jangka panjang.
+        <span data-typing="Kami membantu tim membangun produk digital yang rapi, aman, dan terukur dengan fokus pada kualitas, stabilitas, dan performa jangka panjang." data-typing-delay="600"></span>
     </p>
 
     {{-- CTA Buttons --}}
@@ -83,16 +104,16 @@
 
     {{-- Stats Grid (Jarak dikurangi ke mb-20) --}}
     <div class="grid grid-cols-2 md:grid-cols-3 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden max-w-4xl w-full mb-20 mx-auto shadow-2xl shadow-black/50">
-        <div class="bg-black/80 backdrop-blur-sm p-6 md:p-8 flex flex-col items-center justify-center hover:bg-black/60 transition-colors">
-            <div class="text-3xl md:text-4xl font-bold text-white mb-1">12+</div>
+        <div class="stat-card bg-black/80 backdrop-blur-sm p-6 md:p-8 flex flex-col items-center justify-center hover:bg-black/60 transition-colors" data-stat>
+            <div class="stat-number text-3xl md:text-4xl font-bold text-white mb-1" data-count="12" data-suffix="+">0</div>
             <div class="text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-mono">Completed Projects</div>
         </div>
-        <div class="bg-black/80 backdrop-blur-sm p-6 md:p-8 flex flex-col items-center justify-center hover:bg-black/60 transition-colors border-l border-white/5 md:border-l-0">
-            <div class="text-3xl md:text-4xl font-bold text-white mb-1">99%</div>
+        <div class="stat-card bg-black/80 backdrop-blur-sm p-6 md:p-8 flex flex-col items-center justify-center hover:bg-black/60 transition-colors border-l border-white/5 md:border-l-0" data-stat>
+            <div class="stat-number text-3xl md:text-4xl font-bold text-white mb-1" data-count="99" data-suffix="%">0</div>
             <div class="text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-mono">Uptime Reliability</div>
         </div>
-        <div class="bg-black/80 backdrop-blur-sm p-6 md:p-8 col-span-2 md:col-span-1 flex flex-col items-center justify-center hover:bg-black/60 transition-colors border-t border-white/5 md:border-t-0 md:border-l">
-            <div class="text-3xl md:text-4xl font-bold text-white mb-1">24/7</div>
+        <div class="stat-card bg-black/80 backdrop-blur-sm p-6 md:p-8 col-span-2 md:col-span-1 flex flex-col items-center justify-center hover:bg-black/60 transition-colors border-t border-white/5 md:border-t-0 md:border-l" data-stat>
+            <div class="stat-number text-3xl md:text-4xl font-bold text-white mb-1" data-count="24" data-suffix="/7">0</div>
             <div class="text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-mono">Engineering Support</div>
         </div>
     </div>
@@ -338,6 +359,70 @@
 
         update();
         window.addEventListener('resize', onResize);
+    });
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        const stats = Array.from(document.querySelectorAll('[data-stat]'));
+        if (!stats.length) return;
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const animateNumber = (el, to, suffix, duration = 1200) => {
+            const start = performance.now();
+            const from = 0;
+            const step = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const value = Math.round(from + (to - from) * (progress * (2 - progress)));
+                el.textContent = `${value}${suffix || ''}`;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    el.style.animation = 'stat-pop 400ms ease';
+                }
+            };
+            requestAnimationFrame(step);
+        };
+
+        const reveal = (card, i) => {
+            const numberEl = card.querySelector('[data-count]');
+            if (numberEl && !card.dataset.animated) {
+                card.dataset.animated = 'true';
+                setTimeout(() => {
+                    card.classList.add('is-visible');
+                    if (prefersReduced) {
+                        const to = Number(numberEl.getAttribute('data-count')) || 0;
+                        const suffix = numberEl.getAttribute('data-suffix') || '';
+                        numberEl.textContent = `${to}${suffix}`;
+                    } else {
+                        animateNumber(
+                            numberEl,
+                            Number(numberEl.getAttribute('data-count')) || 0,
+                            numberEl.getAttribute('data-suffix') || '',
+                            1100
+                        );
+                    }
+                }, i * 120);
+            }
+        };
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const idx = stats.indexOf(entry.target);
+                    reveal(entry.target, idx >= 0 ? idx : 0);
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.35 });
+
+        stats.forEach((card, i) => {
+            if (prefersReduced) {
+                reveal(card, i);
+            } else {
+                io.observe(card);
+            }
+        });
     });
 </script>
 @endsection

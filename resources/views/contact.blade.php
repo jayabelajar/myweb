@@ -11,10 +11,10 @@
             Contact
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6">
-            Contact <span class="text-zinc-500">Us.</span>
+            <span data-typing="Contact " data-typing-start="100"></span><span class="text-zinc-500" data-typing="Us." data-typing-delay="500"></span>
         </h1>
         <p class="text-zinc-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-            Ceritakan kebutuhan Anda. Kami siapkan scope dan estimasi awal yang jelas, beserta rekomendasi langkah berikutnya.
+            <span data-typing="Ceritakan kebutuhan Anda. Kami siapkan scope dan estimasi awal yang jelas, beserta rekomendasi langkah berikutnya." data-typing-delay="600"></span>
         </p>
     </div>
 

@@ -11,10 +11,10 @@
             Selected Projects
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6">
-            Selected <span class="text-zinc-500">Projects.</span>
+            <span data-typing="Selected " data-typing-start="100"></span><span class="text-zinc-500" data-typing="Projects." data-typing-delay="500"></span>
         </h1>
         <p class="text-zinc-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-            Portofolio proyek yang fokus pada stabilitas, performa, dan hasil bisnis dibangun dengan proses yang rapi dan fokus pada kualitas.
+            <span data-typing="Portofolio proyek yang fokus pada stabilitas, performa, dan hasil bisnis dibangun dengan proses yang rapi dan fokus pada kualitas." data-typing-delay="600"></span>
         </p>
     </div>
 

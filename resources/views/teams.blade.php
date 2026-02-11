@@ -17,11 +17,11 @@
         </div>
 
         <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6">
-            The <span class="text-zinc-500">Architect.</span>
+            <span data-typing="The " data-typing-start="100"></span><span class="text-zinc-500" data-typing="Architect." data-typing-delay="500"></span>
         </h1>
         
         <p class="text-zinc-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-            Tim berpengalaman yang fokus pada kualitas, keandalan, dan eksekusi dengan perhatian pada detail dan kebutuhan bisnis.
+            <span data-typing="Tim berpengalaman yang fokus pada kualitas, keandalan, dan eksekusi dengan perhatian pada detail dan kebutuhan bisnis." data-typing-delay="600"></span>
         </p>
     </div>
 

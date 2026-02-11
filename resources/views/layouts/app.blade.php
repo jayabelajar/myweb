@@ -37,7 +37,6 @@
                 radial-gradient(800px 500px at 50% 120%, rgba(244, 63, 94, 0.06), transparent 60%);
         }
 
-
         /* Smooth Anchor Scroll Offset */
         html {
             scroll-padding-top: 100px; /* Agar anchor link tidak tertutup header */
@@ -98,6 +97,19 @@
             font-size: 12px;
             font-weight: 600;
             color: #e5e7eb;
+        }
+
+        /* Typing Effect */
+        .typing-caret::after {
+            content: "|";
+            display: inline-block;
+            margin-left: 2px;
+            color: var(--caret-color, #e5e7eb);
+            animation: typing-blink 1s step-end infinite;
+        }
+        @keyframes typing-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
     </style>
 </head>
@@ -164,7 +176,7 @@
             </div>
 
             {{-- 3. Right Actions (CTA & Mobile Toggle) --}}
-            <div class="flex items-center gap-4 z-50">
+            <div class="flex items-center gap-3 z-50">
                 {{-- CTA Button (Hidden on Mobile) --}}
                 <a href="{{ route('contact') }}" class="hidden sm:inline-flex h-9 items-center justify-center gap-2 rounded-full border border-white/20 bg-transparent px-4 text-xs font-semibold text-white transition-all hover:bg-white hover:text-black hover:border-white focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 focus:ring-offset-zinc-900">
                     <span>Start Project</span>
@@ -372,6 +384,56 @@
                 iconClose.classList.remove('opacity-100', 'scale-100');
                 iconClose.classList.add('opacity-0', 'scale-75');
             });
+        });
+    </script>
+
+    {{-- SCRIPT: Typing Effect for Hero Titles & Descriptions --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const targets = Array.from(document.querySelectorAll('[data-typing]'));
+            if (!targets.length) return;
+
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) {
+                targets.forEach(el => {
+                    const text = el.getAttribute('data-typing') || '';
+                    el.textContent = text;
+                });
+                return;
+            }
+
+            targets.forEach(el => {
+                el.textContent = '';
+            });
+
+            let index = 0;
+            const typeNext = () => {
+                if (index >= targets.length) return;
+                const el = targets[index];
+                const text = el.getAttribute('data-typing') || '';
+                const speed = Number(el.getAttribute('data-typing-speed')) || 28;
+                const delayAfter = Number(el.getAttribute('data-typing-delay')) || 350;
+                const startDelay = Number(el.getAttribute('data-typing-start')) || 200;
+
+                let i = 0;
+                el.classList.add('typing-caret');
+
+                const tick = () => {
+                    el.textContent = text.slice(0, i);
+                    i += 1;
+                    if (i <= text.length) {
+                        setTimeout(tick, speed);
+                    } else {
+                        el.classList.remove('typing-caret');
+                        index += 1;
+                        setTimeout(typeNext, delayAfter);
+                    }
+                };
+
+                setTimeout(tick, startDelay);
+            };
+
+            typeNext();
         });
     </script>
 
