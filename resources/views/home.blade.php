@@ -58,6 +58,17 @@
         40% { transform: scale(1.06); }
         100% { transform: scale(1); }
     }
+
+    /* Reveal Animations */
+    .reveal-up {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
 
 <section class="flex flex-col items-center justify-center">
@@ -78,15 +89,16 @@
     </div>
 
     {{-- Headline --}}
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-6 text-white text-center max-w-5xl mx-auto">
-        <span data-typing="Build with confidence " data-typing-start="100"></span><br class="hidden md:block" />
-        <span class="bg-gradient-to-b from-white via-white to-zinc-600 bg-clip-text text-transparent" data-typing="for long-term impact." data-typing-delay="500" style="--caret-color:#ffffff;">
+    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-6 text-white text-center max-w-5xl mx-auto reveal-up" data-reveal>
+        Build with confidence <br class="hidden md:block" />
+        <span class="bg-gradient-to-b from-white via-white to-zinc-600 bg-clip-text text-transparent">
+         for long-term impact.
         </span>
     </h1>
 
     {{-- Subheadline --}}
-    <p class="text-lg md:text-xl text-zinc-400 max-w-2xl text-center font-light leading-relaxed mb-8 mx-auto">
-        <span data-typing="Kami membantu tim membangun produk digital yang rapi, aman, dan terukur dengan fokus pada kualitas, stabilitas, dan performa jangka panjang." data-typing-delay="600"></span>
+    <p class="text-lg md:text-xl text-zinc-400 max-w-2xl text-center font-light leading-relaxed mb-8 mx-auto reveal-up" data-reveal data-reveal-delay="80">
+        Kami membantu tim membangun produk digital yang rapi, aman, dan terukur dengan fokus pada kualitas, stabilitas, dan performa jangka panjang.
     </p>
 
     {{-- CTA Buttons --}}
@@ -123,7 +135,7 @@
     {{-- ========================================== --}}
 
     <div id="work" class="w-full max-w-6xl mx-auto text-left scroll-mt-28 mb-24">
-        <div class="text-center mb-10">
+        <div class="text-center mb-10 reveal-up" data-reveal>
             <h2 class="text-3xl font-bold text-white tracking-tight mb-2">
                 Services <span class="text-zinc-500">Overview.</span>
             </h2>
@@ -134,7 +146,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {{-- 1. Product Design --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="0">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
                 </div>
@@ -143,7 +155,7 @@
             </div>
 
             {{-- 2. Mobile Applications --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="60">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                 </div>
@@ -152,7 +164,7 @@
             </div>
 
             {{-- 3. Web Engineering --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="120">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                 </div>
@@ -161,7 +173,7 @@
             </div>
 
             {{-- 4. IoT Solutions --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="0">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
                 </div>
@@ -170,7 +182,7 @@
             </div>
 
              {{-- 5. Digital Marketing --}}
-             <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+             <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="60">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
                 </div>
@@ -179,7 +191,7 @@
             </div>
 
             {{-- 6. Maintenance --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300">
+            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="120">
                 <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
@@ -302,7 +314,7 @@
     {{-- CTA SECTION --}}
     {{-- ========================================== --}}
 
-    <div class="w-full max-w-5xl mx-auto px-6 mb-4">
+    <div class="w-full max-w-5xl mx-auto px-6 mb-4 reveal-up" data-reveal>
         <div class="relative rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-900/50 px-6 py-16 text-center group">
             
             {{-- Background Glow --}}
@@ -423,6 +435,31 @@
                 io.observe(card);
             }
         });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const items = Array.from(document.querySelectorAll('[data-reveal]'));
+        if (!items.length) return;
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+            items.forEach(el => el.classList.add('is-visible'));
+            return;
+        }
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const delay = Number(el.getAttribute('data-reveal-delay')) || 0;
+                setTimeout(() => el.classList.add('is-visible'), delay);
+                io.unobserve(el);
+            });
+        }, { threshold: 0.25 });
+
+        items.forEach(el => io.observe(el));
     });
 </script>
 @endsection

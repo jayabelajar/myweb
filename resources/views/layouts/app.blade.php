@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        @hasSection('title')
+        @if (request()->routeIs('home'))
+            VeritasDev | Reliable Software Studio
+        @elseif (View::hasSection('title'))
             @yield('title') | VeritasDev
         @else
-            VeritasDev | Reliable Software Studio
+            VeritasDev
         @endif
     </title>
 
@@ -98,6 +100,26 @@
             font-weight: 600;
             color: #e5e7eb;
         }
+        .float-chat__dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            margin-left: 6px;
+        }
+        .float-chat__dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: #22c55e;
+            opacity: .6;
+            animation: chat-dot 1.2s infinite ease-in-out;
+        }
+        .float-chat__dot:nth-child(2) { animation-delay: .2s; }
+        .float-chat__dot:nth-child(3) { animation-delay: .4s; }
+        @keyframes chat-dot {
+            0%, 80%, 100% { opacity: .3; transform: translateY(0); }
+            40% { opacity: 1; transform: translateY(-2px); }
+        }
 
         /* Typing Effect */
         .typing-caret::after {
@@ -110,6 +132,17 @@
         @keyframes typing-blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
+        }
+
+        /* Reveal Animations */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .reveal-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -387,53 +420,30 @@
         });
     </script>
 
-    {{-- SCRIPT: Typing Effect for Hero Titles & Descriptions --}}
+
+    {{-- SCRIPT: Reveal on Scroll --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const targets = Array.from(document.querySelectorAll('[data-typing]'));
-            if (!targets.length) return;
+            const items = Array.from(document.querySelectorAll('[data-reveal]'));
+            if (!items.length) return;
 
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (prefersReduced) {
-                targets.forEach(el => {
-                    const text = el.getAttribute('data-typing') || '';
-                    el.textContent = text;
-                });
+                items.forEach(el => el.classList.add('is-visible'));
                 return;
             }
 
-            targets.forEach(el => {
-                el.textContent = '';
-            });
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const delay = Number(el.getAttribute('data-reveal-delay')) || 0;
+                    setTimeout(() => el.classList.add('is-visible'), delay);
+                    io.unobserve(el);
+                });
+            }, { threshold: 0.25 });
 
-            let index = 0;
-            const typeNext = () => {
-                if (index >= targets.length) return;
-                const el = targets[index];
-                const text = el.getAttribute('data-typing') || '';
-                const speed = Number(el.getAttribute('data-typing-speed')) || 28;
-                const delayAfter = Number(el.getAttribute('data-typing-delay')) || 350;
-                const startDelay = Number(el.getAttribute('data-typing-start')) || 200;
-
-                let i = 0;
-                el.classList.add('typing-caret');
-
-                const tick = () => {
-                    el.textContent = text.slice(0, i);
-                    i += 1;
-                    if (i <= text.length) {
-                        setTimeout(tick, speed);
-                    } else {
-                        el.classList.remove('typing-caret');
-                        index += 1;
-                        setTimeout(typeNext, delayAfter);
-                    }
-                };
-
-                setTimeout(tick, startDelay);
-            };
-
-            typeNext();
+            items.forEach(el => io.observe(el));
         });
     </script>
 
@@ -443,7 +453,14 @@
             <span class="float-chat__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12.04 2C6.55 2 2.1 6.448 2.1 11.937c0 2.097.552 4.143 1.598 5.952L2 22l4.215-1.664a9.88 9.88 0 0 0 5.825 1.865h.004c5.488 0 9.937-4.448 9.937-9.937S17.528 2 12.04 2zm5.746 14.386c-.243.684-1.404 1.31-1.935 1.385-.503.072-1.133.102-1.828-.116-.42-.133-.959-.31-1.655-.61-2.917-1.262-4.823-4.19-4.971-4.385-.148-.194-1.19-1.58-1.19-3.01 0-1.43.75-2.134 1.016-2.427.266-.292.58-.365.773-.365.194 0 .387.002.557.01.178.01.416-.068.652.498.243.58.83 2.004.903 2.15.073.146.122.316.024.51-.098.194-.146.316-.292.487-.146.171-.308.383-.439.514-.146.146-.298.306-.128.6.17.292.755 1.244 1.622 2.014 1.115.99 2.056 1.297 2.348 1.442.292.146.463.122.633-.073.17-.194.73-.852.924-1.144.194-.292.387-.243.65-.146.266.098 1.68.794 1.967.94.292.146.487.219.558.341.073.122.073.706-.17 1.39z"/></svg>
             </span>
-            <span class="float-chat__text">Chat on WhatsApp</span>
+            <span class="float-chat__text">
+                Chat on WhatsApp
+                <span class="float-chat__dots" aria-hidden="true">
+                    <span class="float-chat__dot"></span>
+                    <span class="float-chat__dot"></span>
+                    <span class="float-chat__dot"></span>
+                </span>
+            </span>
         </a>
     </div>
 </body>
