@@ -1,9 +1,72 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\BlogTagController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\TeamController as AdminTeamController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
+use App\Http\Controllers\Admin\BlogTagController as AdminBlogTagController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\WorkflowController as AdminWorkflowController;
+use App\Http\Controllers\Admin\PricingController as AdminPricingController;
 
-Route::get('/', fn() => view('home', ['title' => 'Home']))->name('home');
-Route::get('/projects', fn() => view('projects', ['title' => 'Projects']))->name('projects');
-Route::get('/workflow', fn() => view('workflow', ['title' => 'Workflow']))->name('workflow');
-Route::get('/teams', fn() => view('teams', ['title' => 'Teams']))->name('teams');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+Route::get('/services', [ServiceController::class, 'index'])->name('services');
+Route::get('/teams', [TeamController::class, 'index'])->name('teams');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/category/{slug}', [BlogCategoryController::class, 'show'])->name('blog.category');
+Route::get('/blog/tag/{slug}', [BlogTagController::class, 'show'])->name('blog.tag');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/contact', fn() => view('contact', ['title' => 'Contact']))->name('contact');
+
+Route::get('/admin/login', fn() => view('admin.login', ['title' => 'Admin Login']))->name('admin.login');
+Route::post('/admin/login', function () {
+    $credentials = request()->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        request()->session()->regenerate();
+        return redirect()->route('admin.index');
+    }
+
+    return back()->with('error', 'Email atau password salah.');
+})->name('admin.login.submit');
+
+Route::post('/admin/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('admin.login');
+})->name('admin.logout');
+
+Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.index');
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('projects', AdminProjectController::class)->except(['show']);
+    Route::resource('services', AdminServiceController::class)->except(['show']);
+    Route::resource('teams', AdminTeamController::class)->except(['show']);
+    Route::resource('blog', AdminBlogController::class)->except(['show']);
+    Route::resource('blog/categories', AdminBlogCategoryController::class)
+        ->names('blog.categories')
+        ->except(['show']);
+    Route::resource('blog/tags', AdminBlogTagController::class)
+        ->names('blog.tags')
+        ->except(['show']);
+    Route::get('contact', [AdminContactController::class, 'edit'])->name('contact.edit');
+    Route::put('contact', [AdminContactController::class, 'update'])->name('contact.update');
+    Route::resource('workflows', AdminWorkflowController::class)->except(['show']);
+    Route::resource('pricing', AdminPricingController::class)->except(['show']);
+});

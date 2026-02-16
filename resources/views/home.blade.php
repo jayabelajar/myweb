@@ -131,7 +131,24 @@
     </div>
 
     {{-- ========================================== --}}
-    {{-- SERVICES SECTION (6 ITEMS) --}}
+    {{-- LOGO SECTION --}}
+    {{-- ========================================== --}}
+    <div class="w-full max-w-6xl mx-auto mb-24 reveal-up" data-reveal>
+        <div class="text-center mb-8">
+            <p class="text-xs uppercase tracking-widest text-zinc-500">Trusted by teams</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 items-center">
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Orbit</div>
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Northwind</div>
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Solace</div>
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Aurum</div>
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Lumen</div>
+            <div class="h-16 rounded-xl border border-white/5 bg-zinc-900/30 flex items-center justify-center text-zinc-500 text-xs uppercase tracking-widest">Vantage</div>
+        </div>
+    </div>
+
+    {{-- ========================================== --}}
+    {{-- SERVICES SECTION (WEB DEV FOCUS) --}}
     {{-- ========================================== --}}
 
     <div id="work" class="w-full max-w-6xl mx-auto text-left scroll-mt-28 mb-24">
@@ -145,59 +162,17 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {{-- 1. Product Design --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="0">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+            @foreach ($services as $service)
+                <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal>
+                    <div class="relative h-24 rounded-xl overflow-hidden border border-white/5 mb-4">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-sky-500/10"></div>
+                        <img src="{{ $service->image }}" alt="{{ $service->title }}" class="w-full h-full object-cover opacity-90">
+                    </div>
+                    <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-2">{{ $service->label }}</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">{{ $service->title }}</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">{{ $service->description }}</p>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-2">UI/UX Design</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">Riset pengguna, wireframing, dan desain antarmuka yang intuitif dan estetik.</p>
-            </div>
-
-            {{-- 2. Mobile Applications --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="60">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Mobile Apps</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">Pengembangan aplikasi iOS & Android performa tinggi (Native & Cross-platform).</p>
-            </div>
-
-            {{-- 3. Web Engineering --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="120">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Web Development</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">Sistem web kompleks, SaaS, dan e-commerce dengan backend scalable.</p>
-            </div>
-
-            {{-- 4. IoT Solutions --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="0">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">IoT Solutions</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">Integrasi hardware dan software untuk smart home, industri, dan monitoring sistem.</p>
-            </div>
-
-             {{-- 5. Digital Marketing --}}
-             <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="60">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" /></svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Digital Marketing</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">SEO, Google Ads, dan strategi pertumbuhan digital untuk meningkatkan konversi.</p>
-            </div>
-
-            {{-- 6. Maintenance --}}
-            <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal data-reveal-delay="120">
-                <div class="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <h3 class="text-lg font-semibold text-white mb-2">Maintenance</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">Server monitoring, bug fixing, dan update berkala agar sistem tetap aman.</p>
-            </div>
+            @endforeach
         </div>
     </div>
 

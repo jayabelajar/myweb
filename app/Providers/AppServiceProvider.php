@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\ContactSetting;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $contactSettings = null;
+
+        if (Schema::hasTable('contact_settings')) {
+            $contactSettings = ContactSetting::first();
+        }
+
+        View::share('contactSettings', $contactSettings);
     }
 }

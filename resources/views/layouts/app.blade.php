@@ -185,12 +185,12 @@
                 ])>
                     Projects
                 </a>
-                <a href="{{ route('workflow') }}" @class([
+                <a href="{{ route('services') }}" @class([
                     'px-5 py-2 text-xs uppercase tracking-widest rounded-full transition-all',
-                    'font-semibold text-white bg-white/10 shadow-sm' => request()->routeIs('workflow'),
-                    'font-medium text-zinc-400 hover:text-white hover:bg-white/5' => !request()->routeIs('workflow'),
+                    'font-semibold text-white bg-white/10 shadow-sm' => request()->routeIs('services'),
+                    'font-medium text-zinc-400 hover:text-white hover:bg-white/5' => !request()->routeIs('services'),
                 ])>
-                    Workflow
+                    Services
                 </a>
                 <a href="{{ route('teams') }}" @class([
                     'px-5 py-2 text-xs uppercase tracking-widest rounded-full transition-all',
@@ -198,6 +198,13 @@
                     'font-medium text-zinc-400 hover:text-white hover:bg-white/5' => !request()->routeIs('teams'),
                 ])>
                     Teams
+                </a>
+                <a href="{{ route('blog') }}" @class([
+                    'px-5 py-2 text-xs uppercase tracking-widest rounded-full transition-all',
+                    'font-semibold text-white bg-white/10 shadow-sm' => request()->routeIs('blog*'),
+                    'font-medium text-zinc-400 hover:text-white hover:bg-white/5' => !request()->routeIs('blog*'),
+                ])>
+                    Blog
                 </a>
                 <a href="{{ route('contact') }}" @class([
                     'px-5 py-2 text-xs uppercase tracking-widest rounded-full transition-all',
@@ -255,12 +262,12 @@
                     <span>Projects</span>
                     <span class="text-zinc-600 group-hover:text-white transition-colors">&rarr;</span>
                 </a>
-                <a href="{{ route('workflow') }}" @class([
+                <a href="{{ route('services') }}" @class([
                     'group flex items-center justify-between py-4 border-b border-white/5 text-sm uppercase tracking-widest transition-colors',
-                    'text-white font-semibold' => request()->routeIs('workflow'),
-                    'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('workflow'),
+                    'text-white font-semibold' => request()->routeIs('services'),
+                    'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('services'),
                 ])>
-                    <span>Workflow</span>
+                    <span>Services</span>
                     <span class="text-zinc-600 group-hover:text-white transition-colors">&rarr;</span>
                 </a>
                 <a href="{{ route('teams') }}" @class([
@@ -269,6 +276,14 @@
                     'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('teams'),
                 ])>
                     <span>Teams</span>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors">&rarr;</span>
+                </a>
+                <a href="{{ route('blog') }}" @class([
+                    'group flex items-center justify-between py-4 border-b border-white/5 text-sm uppercase tracking-widest transition-colors',
+                    'text-white font-semibold' => request()->routeIs('blog*'),
+                    'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('blog*'),
+                ])>
+                    <span>Blog</span>
                     <span class="text-zinc-600 group-hover:text-white transition-colors">&rarr;</span>
                 </a>
                 <a href="{{ route('contact') }}" @class([
@@ -293,6 +308,14 @@
     <main class="flex-grow w-full max-w-6xl mx-auto px-6 pt-32 pb-24 relative z-0">
         @yield('content')
     </main>
+
+    @php
+        $contactFooter = $contactSettings;
+        $footerEmail = $contactFooter?->email ?: 'hello@veritasdev.com';
+        $footerLocation = $contactFooter?->location ?: 'Sidoarjo, Indonesia';
+        $whatsappNumber = $contactFooter?->whatsapp_number ?: '6285859400250';
+        $whatsappLink = $whatsappNumber ? 'https://wa.me/' . $whatsappNumber : null;
+    @endphp
 
     {{-- FOOTER --}}
     <footer class="border-t border-white/5 bg-[#080808] pt-20 pb-10 mt-auto">
@@ -340,8 +363,9 @@
                     <h3 class="text-white font-semibold text-xs uppercase tracking-widest mb-6">Company</h3>
                     <ul class="flex flex-col gap-3 text-sm text-zinc-500">
                         <li><a href="{{ route('projects') }}" class="hover:text-white transition-colors duration-200">Projects</a></li>
-                        <li><a href="{{ route('workflow') }}" class="hover:text-white transition-colors duration-200">Workflow</a></li>
+                        <li><a href="{{ route('services') }}" class="hover:text-white transition-colors duration-200">Services</a></li>
                         <li><a href="{{ route('teams') }}" class="hover:text-white transition-colors duration-200">Teams</a></li>
+                        <li><a href="{{ route('blog') }}" class="hover:text-white transition-colors duration-200">Blog</a></li>
                         <li><a href="{{ route('contact') }}" class="hover:text-white transition-colors duration-200">Contact</a></li>
                     </ul>
                 </div>
@@ -352,11 +376,11 @@
                     <ul class="flex flex-col gap-4 text-sm text-zinc-500">
                         <li class="flex flex-col gap-1">
                             <span class="text-[10px] uppercase tracking-widest text-zinc-600">Email</span>
-                            <span class="text-zinc-300">hello@veritasdev.com</span>
+                            <span class="text-zinc-300">{{ $footerEmail }}</span>
                         </li>
                         <li class="flex flex-col gap-1">
                             <span class="text-[10px] uppercase tracking-widest text-zinc-600">Location</span>
-                            <span class="text-zinc-300">Sidoarjo, Indonesia</span>
+                            <span class="text-zinc-300">{{ $footerLocation }}</span>
                         </li>
                     </ul>
                 </div>
@@ -448,8 +472,9 @@
     </script>
 
     {{-- Floating Chat --}}
+    @if ($whatsappLink)
     <div class="float-chat">
-        <a class="float-chat__btn" href="https://wa.me/6285859400250" target="_blank" rel="noopener noreferrer">
+        <a class="float-chat__btn" href="{{ $whatsappLink }}" target="_blank" rel="noopener noreferrer">
             <span class="float-chat__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12.04 2C6.55 2 2.1 6.448 2.1 11.937c0 2.097.552 4.143 1.598 5.952L2 22l4.215-1.664a9.88 9.88 0 0 0 5.825 1.865h.004c5.488 0 9.937-4.448 9.937-9.937S17.528 2 12.04 2zm5.746 14.386c-.243.684-1.404 1.31-1.935 1.385-.503.072-1.133.102-1.828-.116-.42-.133-.959-.31-1.655-.61-2.917-1.262-4.823-4.19-4.971-4.385-.148-.194-1.19-1.58-1.19-3.01 0-1.43.75-2.134 1.016-2.427.266-.292.58-.365.773-.365.194 0 .387.002.557.01.178.01.416-.068.652.498.243.58.83 2.004.903 2.15.073.146.122.316.024.51-.098.194-.146.316-.292.487-.146.171-.308.383-.439.514-.146.146-.298.306-.128.6.17.292.755 1.244 1.622 2.014 1.115.99 2.056 1.297 2.348 1.442.292.146.463.122.633-.073.17-.194.73-.852.924-1.144.194-.292.387-.243.65-.146.266.098 1.68.794 1.967.94.292.146.487.219.558.341.073.122.073.706-.17 1.39z"/></svg>
             </span>
@@ -463,5 +488,6 @@
             </span>
         </a>
     </div>
+    @endif
 </body>
 </html>
