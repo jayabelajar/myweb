@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\BlogTagController as AdminBlogTagController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\WorkflowController as AdminWorkflowController;
 use App\Http\Controllers\Admin\PricingController as AdminPricingController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
@@ -55,6 +56,8 @@ Route::post('/admin/logout', function () {
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.index');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::resource('projects', AdminProjectController::class)->except(['show']);
     Route::resource('services', AdminServiceController::class)->except(['show']);
     Route::resource('teams', AdminTeamController::class)->except(['show']);
@@ -65,8 +68,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('blog/tags', AdminBlogTagController::class)
         ->names('blog.tags')
         ->except(['show']);
-    Route::get('contact', [AdminContactController::class, 'edit'])->name('contact.edit');
-    Route::put('contact', [AdminContactController::class, 'update'])->name('contact.update');
+    Route::resource('contact', AdminContactController::class)->except(['show']);
     Route::resource('workflows', AdminWorkflowController::class)->except(['show']);
     Route::resource('pricing', AdminPricingController::class)->except(['show']);
 });

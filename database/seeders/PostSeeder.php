@@ -41,6 +41,7 @@ class PostSeeder extends Seeder
                         'text' => 'Prioritaskan test pada alur pembayaran, integrasi pihak ketiga, dan logic yang paling sering berubah. Gunakan test kecil dan cepat agar pipeline tetap ringan.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['Architecture', 'Laravel', 'Team'],
             ],
             [
@@ -67,6 +68,7 @@ class PostSeeder extends Seeder
                         'text' => 'Cukup dengan halaman internal yang memuat aturan dan contoh. Dokumentasi singkat lebih sering dibaca dan lebih mudah diperbarui.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['Design System', 'UX', 'Product'],
             ],
             [
@@ -93,6 +95,7 @@ class PostSeeder extends Seeder
                         'text' => 'Logging, metric, dan tracing membantu tim memahami bottleneck sebelum berdampak ke user. Fokus pada request yang paling sering dipakai.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['Performance', 'Observability', 'API'],
             ],
             [
@@ -119,6 +122,7 @@ class PostSeeder extends Seeder
                         'text' => 'Siapkan strategi rollback dan runbook. Ini mengurangi stress saat incident dan mempercepat recovery.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['DevOps', 'CI/CD', 'Reliability'],
             ],
             [
@@ -145,6 +149,7 @@ class PostSeeder extends Seeder
                         'text' => 'Pastikan ada feedback langsung ketika user menyelesaikan aksi penting. Ini menjaga momentum dan retensi.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['Product', 'UX', 'Activation'],
             ],
             [
@@ -171,6 +176,7 @@ class PostSeeder extends Seeder
                         'text' => 'Gunakan sampling untuk event yang sangat sering. Simpan full log hanya untuk periode investigasi.',
                     ],
                 ],
+                'content' => null,
                 'tags' => ['Observability', 'Logging', 'Infrastructure'],
             ],
         ];
@@ -186,9 +192,10 @@ class PostSeeder extends Seeder
                     'excerpt' => $data['excerpt'],
                     'intro' => $data['intro'],
                     'sections' => $data['sections'],
+                    'content' => $this->sectionsToMarkdown($data['sections'] ?? []),
                     'image' => $data['image'],
                     'author' => $data['author'],
-                    'read_time' => $data['read_time'],
+                    'read_time' => $this->estimateReadTime($data['sections'] ?? [], $data['intro'] ?? '', $data['excerpt'] ?? ''),
                     'published_at' => $data['published_at'],
                 ]
             );
@@ -196,5 +203,34 @@ class PostSeeder extends Seeder
             $tagIds = Tag::whereIn('name', $data['tags'])->pluck('id')->all();
             $post->tags()->sync($tagIds);
         }
+    }
+
+    private function sectionsToMarkdown(array $sections): string
+    {
+        $blocks = [];
+        foreach ($sections as $section) {
+            $title = trim((string) ($section['title'] ?? ''));
+            $text = trim((string) ($section['text'] ?? ''));
+            if ($title !== '') {
+                $blocks[] = '## ' . $title;
+            }
+            if ($text !== '') {
+                $blocks[] = $text;
+            }
+        }
+        return implode("\n\n", $blocks);
+    }
+
+    private function estimateReadTime(array $sections, string $intro, string $excerpt): string
+    {
+        $content = $this->sectionsToMarkdown($sections);
+        $source = trim($content . "\n\n" . $intro . "\n\n" . $excerpt);
+        $words = 0;
+        if ($source !== '') {
+            preg_match_all('/\\p{L}+/u', $source, $matches);
+            $words = count($matches[0] ?? []);
+        }
+        $minutes = max(1, (int) ceil($words / 200));
+        return $minutes . ' min read';
     }
 }

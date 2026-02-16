@@ -34,7 +34,7 @@
             color: var(--text-muted);
             overflow-x: hidden; /* Mencegah horizontal scroll */
             background-image:
-                radial-gradient(1200px 600px at 10% -10%, rgba(16, 185, 129, 0.08), transparent 60%),
+                radial-gradient(1200px 600px at 10% -10%, rgba(59, 130, 246, 0.08), transparent 60%),
                 radial-gradient(900px 500px at 90% -20%, rgba(59, 130, 246, 0.08), transparent 60%),
                 radial-gradient(800px 500px at 50% 120%, rgba(244, 63, 94, 0.06), transparent 60%);
         }
@@ -57,7 +57,7 @@
 
         /* Top Glow Effect */
         .ambient-glow {
-            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.10), transparent 70%); /* Emerald hint */
+            background: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.10), transparent 70%); /* sky hint */
             filter: blur(80px);
         }
 
@@ -252,7 +252,7 @@
                     'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('home'),
                 ])>
                     <span>Home</span>
-                    <span class="text-zinc-600 group-hover:text-emerald-400 transition-colors">&rarr;</span>
+                    <span class="text-zinc-600 group-hover:text-sky-400 transition-colors">&rarr;</span>
                 </a>
                 <a href="{{ route('projects') }}" @class([
                     'group flex items-center justify-between py-4 border-b border-white/5 text-sm uppercase tracking-widest transition-colors',

@@ -6,8 +6,8 @@
 <section class="flex flex-col items-center justify-center">
 
     <div class="text-center mb-16 md:mb-24 mt-6 reveal-up" data-reveal>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-mono text-emerald-400 tracking-widest uppercase mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-mono text-sky-400 tracking-widest uppercase mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
             Selected Projects
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6 reveal-up" data-reveal>
@@ -22,14 +22,14 @@
         @foreach ($projects as $project)
             <div class="group relative bg-zinc-900/20 border border-white/5 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
                 <div class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
                     <img src="{{ $project->image }}" alt="{{ $project->title }}" class="w-full h-40 object-cover opacity-90">
                 </div>
                 <div class="p-6">
-                    <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-3">{{ $project->category }}</div>
+                    <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-3">{{ $project->category }}</div>
                     <h3 class="text-xl font-bold text-white mb-2">{{ $project->title }}</h3>
                     <p class="text-sm text-zinc-400 mb-6">{{ $project->description }}</p>
-                    <a href="{{ $project->link ?? '#' }}" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-emerald-400 hover:text-emerald-300 mb-6">
+                    <a href="{{ $project->link ?? '#' }}" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-400 hover:text-sky-300 mb-6">
                         View Project <span class="text-sm">&rarr;</span>
                     </a>
                     <div class="flex flex-wrap gap-2 text-[10px] uppercase tracking-widest text-zinc-500">

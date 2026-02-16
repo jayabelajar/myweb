@@ -15,7 +15,7 @@ class Post extends Model
         'slug',
         'excerpt',
         'intro',
-        'sections',
+        'content',
         'image',
         'author',
         'read_time',
@@ -23,8 +23,8 @@ class Post extends Model
     ];
 
     protected $casts = [
-        'sections' => 'array',
         'published_at' => 'datetime',
+        'sections' => 'array',
     ];
 
     public function category()

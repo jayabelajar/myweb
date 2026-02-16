@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $contactSettings = null;
 
         if (Schema::hasTable('contact_settings')) {
-            $contactSettings = ContactSetting::first();
+            $contactSettings = ContactSetting::latest()->first();
         }
 
         View::share('contactSettings', $contactSettings);

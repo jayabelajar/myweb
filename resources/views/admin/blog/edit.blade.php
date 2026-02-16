@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ route('admin.blog.update', $post) }}" class="space-y-5">
+<form method="POST" action="{{ route('admin.blog.update', $post) }}" enctype="multipart/form-data" class="space-y-5">
     @csrf
     @method('PUT')
     @if (request('drawer'))
@@ -37,16 +37,18 @@
             <input name="author" value="{{ old('author', $post->author) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
         </div>
         <div>
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Read Time</label>
-            <input name="read_time" value="{{ old('read_time', $post->read_time) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
-        </div>
-        <div>
             <label class="text-xs uppercase tracking-widest text-zinc-500">Published At</label>
             <input type="date" name="published_at" value="{{ old('published_at', optional($post->published_at)->format('Y-m-d')) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Image URL</label>
-            <input name="image" value="{{ old('image', $post->image) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Image</label>
+            <input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <p class="mt-2 text-[11px] text-zinc-500">Upload gambar baru untuk mengganti yang lama.</p>
+            @if ($post->image)
+                <div class="mt-3">
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-40 h-24 rounded-xl object-cover border border-white/10">
+                </div>
+            @endif
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Excerpt</label>
@@ -57,8 +59,26 @@
             <textarea name="intro" rows="3" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ old('intro', $post->intro) }}</textarea>
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Sections (JSON)</label>
-            <textarea name="sections" rows="6" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ old('sections', $post->sections ? json_encode($post->sections, JSON_PRETTY_PRINT) : '') }}</textarea>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Content (Markdown)</label>
+            @php
+                $contentValue = old('content', $post->content ?? '');
+                if ($contentValue === '' && !empty($post->sections)) {
+                    $blocks = [];
+                    foreach ($post->sections as $section) {
+                        $title = trim((string) ($section['title'] ?? ''));
+                        $text = trim((string) ($section['text'] ?? ''));
+                        if ($title !== '') {
+                            $blocks[] = '## ' . $title;
+                        }
+                        if ($text !== '') {
+                            $blocks[] = $text;
+                        }
+                    }
+                    $contentValue = implode("\n\n", $blocks);
+                }
+            @endphp
+            <textarea name="content" rows="10" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ $contentValue }}</textarea>
+            <p class="mt-2 text-[11px] text-zinc-500">Gunakan Markdown: `# Judul`, `## Subjudul`, list `- item`, dan gambar `![alt](url)`.</p>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Tags</label>

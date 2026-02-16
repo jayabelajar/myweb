@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'The Team')
 
@@ -6,8 +6,8 @@
 <section class="flex flex-col items-center justify-center">
 
     <div class="text-center mb-20 md:mb-32 mt-10 reveal-up" data-reveal>
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-mono text-emerald-400 tracking-widest uppercase mb-6">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-mono text-sky-400 tracking-widest uppercase mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
             Our Best Team
         </div>
 
@@ -24,7 +24,13 @@
         @forelse ($teams as $team)
             <div class="group relative bg-zinc-900/20 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500">
                 <div class="aspect-[4/5] w-full overflow-hidden bg-zinc-800 relative grayscale group-hover:grayscale-0 transition-all duration-700">
-                    <img src="{{ $team->photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($team->name) . '&background=111827&color=fff' }}" 
+                    @php
+                        $photo = $team->photo_url;
+                        $photoUrl = $photo
+                            ? (\Illuminate\Support\Str::startsWith($photo, ['http://', 'https://', '//']) ? $photo : asset('storage/' . $photo))
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($team->name) . '&background=111827&color=fff';
+                    @endphp
+                    <img src="{{ $photoUrl }}" 
                          alt="{{ $team->name }}" 
                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
@@ -34,19 +40,37 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                     <div class="relative z-10">
                         <div class="text-xs font-mono text-white mb-1 uppercase tracking-widest">{{ $team->role }}</div>
-                        <h3 class="text-2xl font-bold text-white mb-3 drop-shadow-[0_0_12px_rgba(16,185,129,0.25)]">{{ $team->name }}</h3>
+                        <h3 class="text-2xl font-bold text-white mb-3 drop-shadow-[0_0_12px_rgba(59,130,246,0.25)]">{{ $team->name }}</h3>
                         <p class="text-zinc-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-500 delay-75 mb-4 leading-relaxed line-clamp-2">
                             {{ $team->bio }}
                         </p>
-                        @if (!empty($team->socials))
-                            <div class="flex flex-wrap gap-3 pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                @foreach ($team->socials as $key => $url)
-                                    <a href="{{ $url }}" class="text-white/80 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
-                                        {{ strtoupper($key) }}
+                        @php
+                            $socials = [
+                                'github' => ['url' => $team->github_url, 'label' => 'GitHub'],
+                                'linkedin' => ['url' => $team->linkedin_url, 'label' => 'LinkedIn'],
+                                'instagram' => ['url' => $team->instagram_url, 'label' => 'Instagram'],
+                                'dribbble' => ['url' => $team->dribbble_url, 'label' => 'Dribbble'],
+                                'behance' => ['url' => $team->behance_url, 'label' => 'Behance'],
+                                'twitter' => ['url' => $team->twitter_url, 'label' => 'Twitter/X'],
+                            ];
+                        @endphp
+                        <div class="flex flex-wrap gap-3 pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            @foreach ($socials as $key => $item)
+                                @php
+                                    $url = $item['url'];
+                                    $label = $item['label'];
+                                @endphp
+                                @if ($url)
+                                    <a href="{{ $url }}" class="text-white/80 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer" aria-label="{{ $label }}">
+                                        @includeIf('teams.social-icons', ['icon' => $key])
                                     </a>
-                                @endforeach
-                            </div>
-                        @endif
+                                @else
+                                    <span class="text-white/30" aria-hidden="true">
+                                        @includeIf('teams.social-icons', ['icon' => $key])
+                                    </span>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,13 +109,13 @@
             </div>
             
             <div class="h-full min-h-[300px] rounded-2xl border border-white/5 bg-zinc-900/30 p-8 flex flex-col justify-between relative overflow-hidden group">
-                 <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[80px] pointer-events-none group-hover:bg-emerald-500/20 transition-colors duration-700"></div>
+                 <div class="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 blur-[80px] pointer-events-none group-hover:bg-sky-500/20 transition-colors duration-700"></div>
                  
                  <div class="text-6xl text-white/5 font-serif">"</div>
                  <blockquote class="text-xl md:text-2xl text-zinc-300 font-light leading-relaxed relative z-10">
                     "Great software is built by great teams, not just great individuals. We invest in people first."
                  </blockquote>
-                 <div class="text-sm font-mono text-emerald-400 mt-6 relative z-10">— VeritasDev</div>
+                 <div class="text-sm font-mono text-sky-400 mt-6 relative z-10">� VeritasDev</div>
             </div>
         </div>
     </div>

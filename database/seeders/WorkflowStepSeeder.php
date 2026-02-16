@@ -13,25 +13,25 @@ class WorkflowStepSeeder extends Seeder
             [
                 'label' => '01. Discovery',
                 'title' => 'Scope & Strategy',
-                'description' => 'Align tujuan bisnis, user needs, dan KPI sejak awal.',
+                'description' => 'Selaraskan tujuan bisnis, kebutuhan pengguna, dan KPI sejak awal.',
                 'sort_order' => 1,
             ],
             [
                 'label' => '02. Design',
                 'title' => 'UX Architecture',
-                'description' => 'Flow, prototipe, dan validasi cepat sebelum build.',
+                'description' => 'Desain alur, prototipe, dan validasi secara terstruktur.',
                 'sort_order' => 2,
             ],
             [
                 'label' => '03. Build',
                 'title' => 'Engineering Sprint',
-                'description' => 'Pengembangan modular dengan QA berlapis.',
+                'description' => 'Pengembangan modular dengan QA berlapis dan review rutin.',
                 'sort_order' => 3,
             ],
             [
                 'label' => '04. Launch',
                 'title' => 'Go Live',
-                'description' => 'Deploy aman, monitoring, dan handover rapi.',
+                'description' => 'Go-live aman, monitoring, dan handover rapi.',
                 'sort_order' => 4,
             ],
         ];

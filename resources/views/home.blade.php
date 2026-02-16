@@ -51,7 +51,7 @@
         text-shadow: 0 0 18px rgba(255,255,255,0.15);
     }
     .stat-card:hover .stat-number {
-        text-shadow: 0 0 28px rgba(16,185,129,0.35);
+        text-shadow: 0 0 28px rgba(59,130,246,0.35);
     }
     @keyframes stat-pop {
         0% { transform: scale(1); }
@@ -81,8 +81,8 @@
     <div class="mb-6 px-4 py-1.5 border border-white/10 bg-white/5 rounded-full backdrop-blur-md animate-fade-in-up">
         <span class="text-[11px] font-mono text-zinc-300 tracking-wider uppercase flex items-center gap-2">
             <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
             </span>
             Open for new work
         </span>
@@ -152,23 +152,33 @@
     {{-- ========================================== --}}
 
     <div id="work" class="w-full max-w-6xl mx-auto text-left scroll-mt-28 mb-24">
-        <div class="text-center mb-10 reveal-up" data-reveal>
-            <h2 class="text-3xl font-bold text-white tracking-tight mb-2">
-                Services <span class="text-zinc-500">Overview.</span>
-            </h2>
-            <p class="text-zinc-500 text-sm max-w-sm mx-auto">
-                End-to-end delivery yang rapi dan terstruktur, mulai dari discovery, desain, pengembangan, hingga deployment dan perawatan.
-            </p>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 reveal-up" data-reveal>
+            <div>
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Our Services</div>
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    Services <span class="text-zinc-500">Overview.</span>
+                </h2>
+                <p class="text-zinc-500 text-sm max-w-md mt-2">
+                    End-to-end delivery yang rapi dan terstruktur, mulai dari discovery, desain, pengembangan, hingga deployment dan perawatan.
+                </p>
+            </div>
+            <a href="{{ route('services') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30 transition-colors">
+                Lihat Semua
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14"></path>
+                    <path d="M13 6l6 6-6 6"></path>
+                </svg>
+            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach ($services as $service)
                 <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal>
                     <div class="relative h-24 rounded-xl overflow-hidden border border-white/5 mb-4">
-                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-sky-500/10"></div>
+                        <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10"></div>
                         <img src="{{ $service->image }}" alt="{{ $service->title }}" class="w-full h-full object-cover opacity-90">
                     </div>
-                    <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-2">{{ $service->label }}</div>
+                    <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-2">{{ $service->label }}</div>
                     <h3 class="text-lg font-semibold text-white mb-2">{{ $service->title }}</h3>
                     <p class="text-xs text-zinc-400 leading-relaxed">{{ $service->description }}</p>
                 </div>
@@ -181,20 +191,30 @@
     {{-- ========================================== --}}
     
     <div class="w-full max-w-6xl mx-auto mb-20 px-6">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-white tracking-tight mb-2">
-                Trusted by <span class="text-zinc-500">Visionaries.</span>
-            </h2>
-            <p class="text-zinc-500 text-sm max-w-sm mx-auto">
-                Kata mereka yang sudah bekerja bersama kami dan merasakan proses yang transparan, rapi, dan fokus pada hasil.
-            </p>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 reveal-up" data-reveal>
+            <div>
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Client Voices</div>
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    Trusted by <span class="text-zinc-500">Visionaries.</span>
+                </h2>
+                <p class="text-zinc-500 text-sm max-w-md mt-2">
+                    Kata mereka yang sudah bekerja bersama kami dan merasakan proses yang transparan, rapi, dan fokus pada hasil.
+                </p>
+            </div>
+            <a href="{{ route('contact') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30 transition-colors">
+                Mulai Diskusi
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14"></path>
+                    <path d="M13 6l6 6-6 6"></path>
+                </svg>
+            </a>
         </div>
 
         <div id="testi-marquee" class="testi-marquee -mx-6 px-6 md:mx-0 md:px-0 pb-8">
             <div class="testi-track gap-4 md:gap-6">
                 {{-- Testi 1 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "VeritasDev mengubah konsep MVP kami menjadi produk skalabel hanya dalam 3 bulan. Code structure-nya sangat rapi."
                     </p>
@@ -209,7 +229,7 @@
 
                 {{-- Testi 2 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "Jarang menemukan studio yang peduli pada performance sedetail ini. Website e-commerce kami load under 1 detik."
                     </p>
@@ -224,7 +244,7 @@
 
                 {{-- Testi 3 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "Timeline jelas, deliverable sesuai ekspektasi. Partner teknis terbaik untuk startup tahap awal."
                     </p>
@@ -239,7 +259,7 @@
 
                 {{-- Testi 4 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "IoT Dashboard yang mereka buat sangat stabil meskipun menerima ribuan data sensor per detik."
                     </p>
@@ -254,7 +274,7 @@
 
                 {{-- Testi 5 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "Aplikasi mobile kami berjalan smooth di device low-end sekalipun. Optimasi kodenya luar biasa."
                     </p>
@@ -269,7 +289,7 @@
 
                 {{-- Testi 6 --}}
                 <div class="flex-none w-[80vw] sm:w-[60vw] md:w-[340px] min-w-[260px] sm:min-w-[300px] md:min-w-[340px] p-6 border border-white/5 bg-zinc-900/20 rounded-2xl hover:border-white/10 transition-colors">
-                    <div class="text-emerald-500 text-4xl font-serif leading-none mb-4">"</div>
+                    <div class="text-sky-500 text-4xl font-serif leading-none mb-4">"</div>
                     <p class="text-zinc-300 text-sm leading-relaxed mb-6 italic min-h-[80px]">
                         "Support maintenance mereka sangat responsif. Bug fix dilakukan dalam hitungan jam, bukan hari."
                     </p>
@@ -286,6 +306,78 @@
     </div>
 
     {{-- ========================================== --}}
+    {{-- BLOG SNIPPET SECTION --}}
+    {{-- ========================================== --}}
+    <div class="w-full max-w-6xl mx-auto mb-24">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 reveal-up" data-reveal>
+            <div>
+                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-2">Latest Insight</div>
+                <h2 class="text-3xl font-bold text-white tracking-tight">
+                    Blog <span class="text-zinc-500">Highlights.</span>
+                </h2>
+                <p class="text-zinc-500 text-sm max-w-md mt-2">
+                    Ringkasan singkat dari tulisan terbaru kami tentang engineering, product, dan delivery.
+                </p>
+            </div>
+            <a href="{{ route('blog') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30 transition-colors">
+                Lihat Semua
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14"></path>
+                    <path d="M13 6l6 6-6 6"></path>
+                </svg>
+            </a>
+        </div>
+
+        @if ($posts->count())
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($posts as $post)
+                    <article class="group relative bg-zinc-900/20 border border-white/5 rounded-2xl overflow-hidden hover:border-white/15 transition-all reveal-up" data-reveal>
+                        <a href="{{ route('blog.show', $post->slug) }}" class="block">
+                            <div class="relative">
+                                <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
+                                @php
+                                    $image = $post->image;
+                                    $imageUrl = $image
+                                        ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//']) ? $image : asset('storage/' . $image))
+                                        : 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80';
+                                @endphp
+                                <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-44 object-cover opacity-90">
+                            </div>
+                        </a>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between text-[10px] uppercase tracking-widest text-zinc-500 mb-4">
+                                @if ($post->category)
+                                    <a href="{{ route('blog.category', $post->category->slug) }}" class="px-2 py-1 border border-white/10 rounded-full hover:border-white/30 hover:text-white transition-colors">
+                                        {{ $post->category->name }}
+                                    </a>
+                                @else
+                                    <span class="px-2 py-1 border border-white/10 rounded-full text-zinc-500">Uncategorized</span>
+                                @endif
+                                <span>{{ $post->read_time }}</span>
+                            </div>
+                            <a href="{{ route('blog.show', $post->slug) }}" class="block">
+                                <h3 class="text-xl font-bold text-white mb-3 leading-snug group-hover:text-sky-100 transition-colors">{{ $post->title }}</h3>
+                                <p class="text-sm text-zinc-400 mb-6">{{ $post->excerpt }}</p>
+                            </a>
+                            <div class="flex items-center justify-between text-xs text-zinc-500">
+                                <span>{{ $post->author }}</span>
+                                <span>{{ optional($post->published_at)->format('d M Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="absolute -top-6 right-8 w-24 h-24 bg-sky-500/10 blur-[60px]"></div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            <div class="rounded-2xl border border-white/5 bg-zinc-900/30 p-8 text-center text-sm text-zinc-400">
+                Belum ada postingan terbaru. Cek lagi nanti.
+            </div>
+        @endif
+    </div>
+
+    {{-- ========================================== --}}
     {{-- CTA SECTION --}}
     {{-- ========================================== --}}
 
@@ -293,8 +385,8 @@
         <div class="relative rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-900/50 px-6 py-16 text-center group">
             
             {{-- Background Glow --}}
-            <div class="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-emerald-500/10 blur-[80px] pointer-events-none group-hover:bg-emerald-500/20 transition-colors duration-700"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-sky-500/5 to-transparent pointer-events-none"></div>
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-sky-500/10 blur-[80px] pointer-events-none group-hover:bg-sky-500/20 transition-colors duration-700"></div>
 
             <div class="relative z-10">
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">

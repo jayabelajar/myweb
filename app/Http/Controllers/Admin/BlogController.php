@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -41,17 +42,19 @@ class BlogController extends Controller
             'slug' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['required', 'string'],
             'intro' => ['nullable', 'string'],
-            'sections' => ['nullable', 'string'],
-            'image' => ['nullable', 'string', 'max:2048'],
+            'content' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:4096'],
             'author' => ['nullable', 'string', 'max:255'],
-            'read_time' => ['nullable', 'string', 'max:50'],
             'published_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
         ]);
 
         $data['slug'] = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
-        $data['sections'] = $this->decodeSections($data['sections'] ?? null);
+        $data['read_time'] = $this->estimateReadTime($data['content'], $data['intro'] ?? '', $data['excerpt'] ?? '');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('posts', 'public');
+        }
 
         $post = Post::create($data);
         $post->tags()->sync($data['tags'] ?? []);
@@ -63,17 +66,17 @@ class BlogController extends Controller
         return redirect()->route('admin.blog.index')->with('success', 'Post created.');
     }
 
-    public function edit(Post $post)
+    public function edit(Post $blog)
     {
         return view('admin.blog.edit', [
             'title' => 'Edit Post',
-            'post' => $post,
+            'post' => $blog,
             'categories' => Category::orderBy('name')->get(),
             'tags' => Tag::orderBy('name')->get(),
         ]);
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $blog)
     {
         $data = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
@@ -81,20 +84,27 @@ class BlogController extends Controller
             'slug' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['required', 'string'],
             'intro' => ['nullable', 'string'],
-            'sections' => ['nullable', 'string'],
-            'image' => ['nullable', 'string', 'max:2048'],
+            'content' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:4096'],
             'author' => ['nullable', 'string', 'max:255'],
-            'read_time' => ['nullable', 'string', 'max:50'],
             'published_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'exists:tags,id'],
         ]);
 
         $data['slug'] = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
-        $data['sections'] = $this->decodeSections($data['sections'] ?? null);
+        $data['read_time'] = $this->estimateReadTime($data['content'], $data['intro'] ?? '', $data['excerpt'] ?? '');
+        if ($request->hasFile('image')) {
+            if ($blog->image) {
+                Storage::disk('public')->delete($blog->image);
+            }
+            $data['image'] = $request->file('image')->store('posts', 'public');
+        } else {
+            unset($data['image']);
+        }
 
-        $post->update($data);
-        $post->tags()->sync($data['tags'] ?? []);
+        $blog->update($data);
+        $blog->tags()->sync($data['tags'] ?? []);
 
         if ($request->boolean('drawer')) {
             return back()->with('success', 'Post updated.');
@@ -103,23 +113,27 @@ class BlogController extends Controller
         return redirect()->route('admin.blog.index')->with('success', 'Post updated.');
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $blog)
     {
-        $post->tags()->detach();
-        $post->delete();
+        $blog->tags()->detach();
+        if ($blog->image) {
+            Storage::disk('public')->delete($blog->image);
+        }
+        $blog->delete();
 
         return redirect()->route('admin.blog.index')->with('success', 'Post deleted.');
     }
 
-    private function decodeSections(?string $value): ?array
+    private function estimateReadTime(string $content, string $intro = '', string $excerpt = ''): string
     {
-        if (!$value) {
-            return null;
+        $source = trim($content . "\n\n" . $intro . "\n\n" . $excerpt);
+        $plain = trim(strip_tags((string) Str::markdown($source)));
+        $words = 0;
+        if ($plain !== '') {
+            preg_match_all('/\\p{L}+/u', $plain, $matches);
+            $words = count($matches[0] ?? []);
         }
-        $decoded = json_decode($value, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return null;
-        }
-        return $decoded;
+        $minutes = max(1, (int) ceil($words / 200));
+        return $minutes . ' min read';
     }
 }

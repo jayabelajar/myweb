@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ route('admin.blog.store') }}" class="space-y-5">
+<form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data" class="space-y-5">
     @csrf
     @if (request('drawer'))
         <input type="hidden" name="drawer" value="1">
@@ -36,16 +36,13 @@
             <input name="author" value="{{ old('author') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
         </div>
         <div>
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Read Time</label>
-            <input name="read_time" value="{{ old('read_time') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="5 min">
-        </div>
-        <div>
             <label class="text-xs uppercase tracking-widest text-zinc-500">Published At</label>
             <input type="date" name="published_at" value="{{ old('published_at') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Image URL</label>
-            <input name="image" value="{{ old('image') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Image</label>
+            <input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <p class="mt-2 text-[11px] text-zinc-500">Upload gambar, maks 4MB.</p>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Excerpt</label>
@@ -56,8 +53,9 @@
             <textarea name="intro" rows="3" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ old('intro') }}</textarea>
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Sections (JSON)</label>
-            <textarea name="sections" rows="6" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder='[{"title":"...","body":"..."}]'>{{ old('sections') }}</textarea>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Content (Markdown)</label>
+            <textarea name="content" rows="10" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Tulis artikel di sini...">{{ old('content') }}</textarea>
+            <p class="mt-2 text-[11px] text-zinc-500">Gunakan Markdown: `# Judul`, `## Subjudul`, list `- item`, dan gambar `![alt](url)`.</p>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Tags</label>

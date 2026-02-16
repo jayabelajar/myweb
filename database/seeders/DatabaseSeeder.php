@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@veritasdev.com'],
             [
                 'name' => 'Admin',
+                'role' => 'Administrator',
                 'password' => Hash::make('admin123'),
             ]
         );

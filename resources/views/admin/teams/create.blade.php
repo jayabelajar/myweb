@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ route('admin.teams.store') }}" class="space-y-5">
+<form method="POST" action="{{ route('admin.teams.store') }}" enctype="multipart/form-data" class="space-y-5">
     @csrf
     @if (request('drawer'))
         <input type="hidden" name="drawer" value="1">
@@ -23,8 +23,9 @@
             <input name="role" value="{{ old('role') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
         </div>
         <div>
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Photo URL</label>
-            <input name="photo_url" value="{{ old('photo_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Photo</label>
+            <input type="file" name="photo_url" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <p class="mt-2 text-[11px] text-zinc-500">Upload foto, maks 4MB.</p>
         </div>
         <div>
             <label class="text-xs uppercase tracking-widest text-zinc-500">Sort Order</label>
@@ -34,9 +35,29 @@
             <label class="text-xs uppercase tracking-widest text-zinc-500">Bio</label>
             <textarea name="bio" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ old('bio') }}</textarea>
         </div>
-        <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Socials (format: key:url, key:url)</label>
-            <input name="socials" value="{{ old('socials') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="github:https://..., linkedin:https://...">
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">GitHub URL</label>
+            <input name="github_url" value="{{ old('github_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://github.com/username">
+        </div>
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">LinkedIn URL</label>
+            <input name="linkedin_url" value="{{ old('linkedin_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://linkedin.com/in/username">
+        </div>
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Instagram URL</label>
+            <input name="instagram_url" value="{{ old('instagram_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://instagram.com/username">
+        </div>
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Dribbble URL</label>
+            <input name="dribbble_url" value="{{ old('dribbble_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://dribbble.com/username">
+        </div>
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Behance URL</label>
+            <input name="behance_url" value="{{ old('behance_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://behance.net/username">
+        </div>
+        <div>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Twitter/X URL</label>
+            <input name="twitter_url" value="{{ old('twitter_url') }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="https://x.com/username">
         </div>
         <div class="md:col-span-2 flex items-center gap-2">
             <input type="checkbox" name="is_active" value="1" class="rounded border-white/20 bg-black/40" {{ old('is_active', true) ? 'checked' : '' }}>

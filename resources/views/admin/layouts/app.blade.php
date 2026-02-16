@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,8 @@
             --bg-color: #0f141a;
             --text-muted: #c7ccd2;
             --border-color: rgba(255, 255, 255, 0.05);
+            --admin-table-offset: 260px;
+            --admin-topbar-height: 64px;
         }
 
         body {
@@ -19,7 +21,7 @@
             background-color: var(--bg-color);
             color: var(--text-muted);
             background-image:
-                radial-gradient(1200px 600px at 10% -10%, rgba(16, 185, 129, 0.04), transparent 60%),
+                radial-gradient(1200px 600px at 10% -10%, rgba(59, 130, 246, 0.04), transparent 60%),
                 radial-gradient(900px 500px at 90% -20%, rgba(59, 130, 246, 0.04), transparent 60%),
                 radial-gradient(800px 500px at 50% 120%, rgba(244, 63, 94, 0.03), transparent 60%);
         }
@@ -35,7 +37,7 @@
         }
 
         .ambient-glow {
-            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.06), transparent 70%);
+            background: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.06), transparent 70%);
             filter: blur(80px);
         }
 
@@ -79,6 +81,17 @@
             justify-content: center;
         }
 
+        .sidebar-collapsed .sidebar-brand {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            justify-content: center;
+        }
+
+        .sidebar-collapsed .sidebar-brand-link {
+            width: 100%;
+            justify-content: center;
+        }
+
         .admin-header-fixed {
             position: fixed;
             top: 0;
@@ -86,8 +99,27 @@
             left: 18rem;
         }
 
+        .admin-topbar,
+        .sidebar-brand {
+            height: var(--admin-topbar-height);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: rgba(14, 19, 24, 0.8);
+            backdrop-filter: blur(18px);
+        }
+
         .sidebar-collapsed .admin-header-fixed {
             left: 4.5rem;
+        }
+
+        @media (max-width: 1023.98px) {
+            .admin-header-fixed,
+            .sidebar-collapsed .admin-header-fixed {
+                left: 0;
+            }
+            :root {
+                --admin-table-offset: 220px;
+            }
         }
 
         .sidebar-collapsed .sidebar-section-label {
@@ -117,6 +149,16 @@
         .sidebar-collapsed .sidebar-logout {
             display: none;
         }
+
+        #admin-main {
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        @media (max-width: 1023.98px) {
+            #admin-main {
+                border-left: 0;
+            }
+        }
     </style>
 @php
     $isDrawer = request()->boolean('drawer');
@@ -132,14 +174,14 @@
     <div class="min-h-screen flex">
         <aside id="admin-sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#0e1318]/92 border-r border-white/5 backdrop-blur-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
             <div class="h-full flex flex-col">
-                <div class="h-16 px-6 flex items-center border-b border-white/5">
-                    <a href="{{ route('admin.index') }}" class="flex items-center gap-3 text-zinc-100 font-semibold">
+                <div class="px-6 flex items-center border-b border-white/5 sidebar-brand">
+                    <a href="{{ route('admin.index') }}" class="sidebar-brand-link flex items-center gap-3 text-zinc-100 font-semibold">
                         <span class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 2L2 22h20L12 2z"></path>
                             </svg>
                         </span>
-                        <span class="sidebar-brand-text">VeritasDev Admin</span>
+                        <span class="sidebar-brand-text">Panel Admin</span>
                     </a>
                 </div>
 
@@ -166,6 +208,7 @@
                                     </svg>
                                 </button>
                                 <div class="sidebar-submenu ml-7 space-y-1 text-[12px] {{ request()->routeIs('admin.services.*') || request()->routeIs('admin.workflows.*') || request()->routeIs('admin.pricing.*') ? '' : 'hidden' }}" data-submenu="services">
+                                    <a href="{{ route('admin.services.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">All Services</a>
                                     <a href="{{ route('admin.workflows.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Workflow</a>
                                     <a href="{{ route('admin.pricing.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Pricing</a>
                                 </div>
@@ -185,11 +228,19 @@
                                     </svg>
                                 </button>
                                 <div class="sidebar-submenu ml-7 space-y-1 text-[12px] {{ request()->routeIs('admin.blog.*') ? '' : 'hidden' }}" data-submenu="blog">
+                                    <a href="{{ route('admin.blog.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Articles</a>
                                     <a href="{{ route('admin.blog.categories.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Categories</a>
                                     <a href="{{ route('admin.blog.tags.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Tags</a>
                                 </div>
                             </div>
-                            <a href="{{ route('admin.contact.edit') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.contact.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
+                            <a href="{{ route('admin.profile.edit') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.profile.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
+                                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="4"></circle>
+                                    <path d="M4 22a8 8 0 0 1 16 0"></path>
+                                </svg>
+                                <span class="sidebar-label">Profile</span>
+                            </a>
+                            <a href="{{ route('admin.contact.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.contact.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
                                 <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H4z"></path><path d="M22 20H2"></path></svg>
                                 <span class="sidebar-label">Contact</span>
                             </a>
@@ -234,7 +285,7 @@
                                     <path d="M12 2L2 22h20L12 2z"></path>
                                 </svg>
                             </span>
-                            VeritasDev Admin
+                            Panel Admin
                         </a>
                         <div class="hidden lg:flex items-center gap-3">
                             <button id="admin-sidebar-toggle" type="button" class="inline-flex items-center justify-center rounded-full border border-white/10 w-10 h-10 text-zinc-300 hover:text-zinc-100 hover:border-white/20" aria-label="Toggle sidebar">
@@ -265,7 +316,7 @@
                                     <div class="text-sm text-zinc-100 font-semibold">Admin</div>
                                     <div class="text-[11px] text-zinc-500/70">veritasdev.com</div>
                                 </div>
-                                <a href="{{ route('admin.index') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5 rounded-lg">
+                                <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5 rounded-lg">
                                     Profile
                                 </a>
                                 <form method="POST" action="{{ route('admin.logout') }}">
@@ -287,10 +338,11 @@
                 </div>
             </header>
 
-            <main class="px-4 sm:px-6 lg:px-10 py-24 sm:py-28">
-                <div class="max-w-6xl mx-auto">
+            <main class="px-4 sm:px-6 lg:px-10 pt-[calc(var(--admin-topbar-height)+20px)] pb-16 admin-main-content">
+                <div class="admin-main-inner">
+                    <div class="max-w-6xl mx-auto">
                     @if (session('success'))
-                        <div class="mb-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                        <div class="mb-6 rounded-2xl border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-sm text-sky-200">
                             {{ session('success') }}
                         </div>
                     @endif
@@ -307,6 +359,7 @@
                     @endif
 
                     @yield('content')
+                    </div>
                 </div>
             </main>
         </div>
@@ -325,9 +378,10 @@
         </div>
     </aside>
     @else
-        <main class="px-4 py-6">
+        <main class="px-4 py-6 admin-main-content">
+            <div class="admin-main-inner">
             @if (session('success'))
-                <div class="mb-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                <div class="mb-6 rounded-2xl border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-sm text-sky-200">
                     {{ session('success') }}
                 </div>
             @endif
@@ -344,6 +398,7 @@
             @endif
 
             @yield('content')
+            </div>
         </main>
     @endif
 

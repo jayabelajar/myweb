@@ -14,13 +14,17 @@ class Team extends Model
         'role',
         'bio',
         'photo_url',
-        'socials',
+        'github_url',
+        'linkedin_url',
+        'instagram_url',
+        'dribbble_url',
+        'behance_url',
+        'twitter_url',
         'sort_order',
         'is_active',
     ];
 
     protected $casts = [
-        'socials' => 'array',
         'is_active' => 'boolean',
     ];
 }
