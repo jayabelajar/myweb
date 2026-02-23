@@ -15,8 +15,8 @@ class ServiceSeeder extends Seeder
         $services = [
             [
                 'label' => 'Web Apps',
-                'title' => 'Dashboard & Internal Tools',
-                'price' => 'Mulai Rp 15jt',
+                'title' => 'Internal Dashboard',
+                'price' => 'Rp 8 - 12jt',
                 'description' => 'Sistem internal, portal admin, dan workflow automation dengan akses role-based.',
                 'benefits' => [
                     'Role-based access dan manajemen user',
@@ -28,8 +28,8 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'label' => 'SaaS Build',
-                'title' => 'MVP to Scale',
-                'price' => 'Mulai Rp 35jt',
+                'title' => 'SaaS MVP',
+                'price' => 'Rp 15 - 30jt',
                 'description' => 'Validasi cepat, modular, siap grow dengan billing dan analytics.',
                 'benefits' => [
                     'Arsitektur modular siap scale',
@@ -41,8 +41,8 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'label' => 'Landing',
-                'title' => 'High-Convert Pages',
-                'price' => 'Mulai Rp 7jt',
+                'title' => 'Landing Page',
+                'price' => 'Rp 2 - 5jt',
                 'description' => 'Page cepat, ringan, SEO-ready untuk campaign dan produk baru.',
                 'benefits' => [
                     'Copy section terstruktur untuk conversion',
@@ -54,8 +54,8 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'label' => 'Performance',
-                'title' => 'Audit & Optimization',
-                'price' => 'Mulai Rp 8jt',
+                'title' => 'Performance Audit',
+                'price' => 'Rp 5 - 9jt',
                 'description' => 'Refactor, caching, dan observability untuk latency rendah.',
                 'benefits' => [
                     'Audit query, caching, dan bottleneck',
@@ -67,8 +67,8 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'label' => 'Integrations',
-                'title' => 'API & Automations',
-                'price' => 'Mulai Rp 10jt',
+                'title' => 'API Integration',
+                'price' => 'Rp 4 - 10jt',
                 'description' => 'Integrasi payment, CRM, email, dan third-party services.',
                 'benefits' => [
                     'Integrasi payment gateway/VA/e-wallet',
@@ -80,8 +80,8 @@ class ServiceSeeder extends Seeder
             ],
             [
                 'label' => 'UI System',
-                'title' => 'Design System',
-                'price' => 'Mulai Rp 12jt',
+                'title' => 'Design System Kit',
+                'price' => 'Rp 6 - 11jt',
                 'description' => 'Komponen konsisten untuk scaling tim product dan engineering.',
                 'benefits' => [
                     'Komponen reusable dan style token',
@@ -95,7 +95,7 @@ class ServiceSeeder extends Seeder
 
         foreach ($services as $service) {
             Service::updateOrCreate(
-                ['title' => $service['title']],
+                ['sort_order' => $service['sort_order']],
                 $service
             );
         }

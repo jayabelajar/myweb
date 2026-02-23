@@ -23,7 +23,7 @@ class ServiceController extends Controller
     public function create()
     {
         return view('admin.services.create', [
-            'title' => 'New Service',
+            'title' => 'New Package',
         ]);
     }
 
@@ -31,9 +31,9 @@ class ServiceController extends Controller
     {
         $data = $request->validate([
             'label' => ['required', 'string', 'max:255'],
-            'title' => ['required', 'string', 'max:255'],
-            'price' => ['nullable', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['required', 'string', 'max:80'],
+            'price' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'benefits' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -48,16 +48,16 @@ class ServiceController extends Controller
         Service::create($data);
 
         if ($request->boolean('drawer')) {
-            return back()->with('success', 'Service created.');
+            return back()->with('success', 'Package created.');
         }
 
-        return redirect()->route('admin.services.index')->with('success', 'Service created.');
+        return redirect()->route('admin.services.index')->with('success', 'Package created.');
     }
 
     public function edit(Service $service)
     {
         return view('admin.services.edit', [
-            'title' => 'Edit Service',
+            'title' => 'Edit Package',
             'service' => $service,
         ]);
     }
@@ -66,9 +66,9 @@ class ServiceController extends Controller
     {
         $data = $request->validate([
             'label' => ['required', 'string', 'max:255'],
-            'title' => ['required', 'string', 'max:255'],
-            'price' => ['nullable', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['required', 'string', 'max:80'],
+            'price' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'benefits' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -88,10 +88,10 @@ class ServiceController extends Controller
         $service->update($data);
 
         if ($request->boolean('drawer')) {
-            return back()->with('success', 'Service updated.');
+            return back()->with('success', 'Package updated.');
         }
 
-        return redirect()->route('admin.services.index')->with('success', 'Service updated.');
+        return redirect()->route('admin.services.index')->with('success', 'Package updated.');
     }
 
     public function destroy(Service $service)
@@ -101,7 +101,7 @@ class ServiceController extends Controller
         }
         $service->delete();
 
-        return redirect()->route('admin.services.index')->with('success', 'Service deleted.');
+        return redirect()->route('admin.services.index')->with('success', 'Package deleted.');
     }
 
     private function normalizeBenefits(?string $benefits): ?array

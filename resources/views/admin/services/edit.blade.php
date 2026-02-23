@@ -3,8 +3,8 @@
 @section('content')
 <div class="flex items-center justify-between mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Edit Service</h1>
-        <p class="text-sm text-zinc-500">Update layanan.</p>
+        <h1 class="text-2xl font-bold text-white">Edit Package</h1>
+        <p class="text-sm text-zinc-500">Update paket pricing.</p>
     </div>
 </div>
 
@@ -16,20 +16,20 @@
     @endif
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Label</label>
-            <input name="label" value="{{ old('label', $service->label) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Category Label</label>
+            <input name="label" value="{{ old('label', $service->label) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh: SaaS Build" required>
         </div>
         <div>
             <label class="text-xs uppercase tracking-widest text-zinc-500">Sort Order</label>
             <input type="number" name="sort_order" value="{{ old('sort_order', $service->sort_order) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Title</label>
-            <input name="title" value="{{ old('title', $service->title) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Package Name</label>
+            <input name="title" value="{{ old('title', $service->title) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh: SaaS MVP" required>
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Price</label>
-            <input name="price" value="{{ old('price', $service->price) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh: Mulai Rp 7jt">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Price Range</label>
+            <input name="price" value="{{ old('price', $service->price) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh: Rp 2 - 3jt">
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Image</label>
@@ -48,8 +48,8 @@
             @endif
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Description</label>
-            <textarea name="description" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>{{ old('description', $service->description) }}</textarea>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Description (opsional)</label>
+            <textarea name="description" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ old('description', $service->description) }}</textarea>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Benefits (satu per baris)</label>

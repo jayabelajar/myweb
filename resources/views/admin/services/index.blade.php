@@ -3,18 +3,18 @@
 @section('content')
 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Services</h1>
-        <p class="text-sm text-zinc-500">Kelola layanan yang tampil di halaman publik.</p>
+        <h1 class="text-2xl font-bold text-white">Service Packages</h1>
+        <p class="text-sm text-zinc-500">Kelola paket pricing yang tampil di halaman Services.</p>
     </div>
-    <a href="{{ route('admin.services.create') }}" data-drawer-url="{{ route('admin.services.create', ['drawer' => 1]) }}" data-drawer-title="New Service" class="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30">
-        New Service
+    <a href="{{ route('admin.services.create') }}" data-drawer-url="{{ route('admin.services.create', ['drawer' => 1]) }}" data-drawer-title="New Package" class="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30">
+        New Package
     </a>
 </div>
 
 <x-admin.table :headers="[
-    ['label' => 'Label'],
-    ['label' => 'Title'],
-    ['label' => 'Price'],
+    ['label' => 'Category'],
+    ['label' => 'Package'],
+    ['label' => 'Price Range'],
     ['label' => 'Order'],
     ['label' => 'Actions', 'align' => 'right', 'nowrap' => true],
 ]">
@@ -28,15 +28,15 @@
                 <x-admin.action-buttons
                     :edit-url="route('admin.services.edit', $service)"
                     :edit-drawer-url="route('admin.services.edit', [$service, 'drawer' => 1])"
-                    edit-title="Edit Service"
+                    edit-title="Edit Package"
                     :delete-url="route('admin.services.destroy', $service)"
-                    confirm="Hapus service ini?"
+                    confirm="Hapus package ini?"
                 />
             </td>
         </tr>
     @empty
         <tr>
-            <td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada service.</td>
+            <td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada package.</td>
         </tr>
     @endforelse
 </x-admin.table>

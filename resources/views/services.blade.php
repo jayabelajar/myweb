@@ -22,10 +22,6 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             @foreach ($services as $service)
                 @php $featured = $loop->iteration === 2; @endphp
-                @php
-                    $priceRanges = ['Rp 2 - 3jt', 'Rp 4 - 7jt', 'Rp 8 - 12jt', 'Rp 12 - 18jt', 'Rp 15 - 25jt', 'Rp 25 - 40jt'];
-                    $rangePrice = $priceRanges[($loop->iteration - 1) % count($priceRanges)];
-                @endphp
                 <article class="relative rounded-3xl border p-7 md:p-8 flex flex-col min-h-[560px] backdrop-blur-sm {{ $featured ? 'border-sky-400/50 bg-sky-500/[0.08] shadow-[0_0_40px_rgba(56,189,248,0.16)]' : 'border-white/10 bg-zinc-900/40' }}">
                     @if ($featured)
                         <div class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-sky-400/40 bg-sky-500/20 px-4 py-1 text-[10px] font-semibold uppercase tracking-widest text-sky-200">
@@ -34,25 +30,13 @@
                     @endif
 
                     <div class="text-center">
-                        @php
-                            $packageTitleMap = [
-                                'Dashboard & Internal Tools' => 'Internal Dashboard',
-                                'MVP to Scale' => 'SaaS MVP',
-                                'High-Convert Pages' => 'Landing Page',
-                                'Audit & Optimization' => 'Performance Audit',
-                                'API & Automations' => 'API Integration',
-                                'Design System' => 'Design System Kit',
-                            ];
-                            $packageTitle = $packageTitleMap[$service->title] ?? $service->title;
-                        @endphp
                         <div class="text-xs font-mono uppercase tracking-[0.2em] text-sky-300">{{ $service->label }}</div>
-                        <h3 class="mt-3 text-2xl font-bold tracking-tight text-white">{{ $packageTitle }}</h3>
+                        <h3 class="mt-3 text-2xl font-bold tracking-tight text-white">{{ $service->title }}</h3>
                         <div class="mx-auto mt-4 h-px w-28 bg-gradient-to-r from-transparent via-sky-400/60 to-transparent"></div>
                     </div>
 
                     <div class="mt-7 text-center">
-                        <div class="text-xs uppercase tracking-[0.2em] text-zinc-500 mb-2">Range Harga</div>
-                        <div class="text-4xl font-bold tracking-tight text-white">{{ $rangePrice }}</div>
+                        <div class="text-2xl md:text-3xl font-bold tracking-tight text-white">{{ $service->price }}</div>
                     </div>
 
                     <ul class="mt-6 space-y-3 text-sm">
