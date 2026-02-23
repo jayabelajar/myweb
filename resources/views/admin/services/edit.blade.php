@@ -28,6 +28,10 @@
             <input name="title" value="{{ old('title', $service->title) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
         </div>
         <div class="md:col-span-2">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Price</label>
+            <input name="price" value="{{ old('price', $service->price) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh: Mulai Rp 7jt">
+        </div>
+        <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Image</label>
             <input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
             <p class="mt-2 text-[11px] text-zinc-500">Upload gambar baru untuk mengganti yang lama.</p>
@@ -46,6 +50,10 @@
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Description</label>
             <textarea name="description" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>{{ old('description', $service->description) }}</textarea>
+        </div>
+        <div class="md:col-span-2">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Benefits (satu per baris)</label>
+            <textarea name="benefits" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Contoh:&#10;Role-based access&#10;Integrasi API&#10;Deployment + support">{{ old('benefits', implode(PHP_EOL, $service->benefits ?? [])) }}</textarea>
         </div>
     </div>
 

@@ -14,6 +14,7 @@
 <x-admin.table :headers="[
     ['label' => 'Label'],
     ['label' => 'Title'],
+    ['label' => 'Price'],
     ['label' => 'Order'],
     ['label' => 'Actions', 'align' => 'right', 'nowrap' => true],
 ]">
@@ -21,6 +22,7 @@
         <tr class="hover:bg-white/5">
             <td class="px-4 py-3 text-zinc-400">{{ $service->label }}</td>
             <td class="px-4 py-3 text-white font-semibold">{{ $service->title }}</td>
+            <td class="px-4 py-3 text-zinc-400">{{ $service->price ?? '-' }}</td>
             <td class="px-4 py-3 text-zinc-500">{{ $service->sort_order }}</td>
             <td class="px-4 py-3 text-right align-middle whitespace-nowrap">
                 <x-admin.action-buttons
@@ -34,7 +36,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="4" class="px-4 py-8 text-center text-zinc-500">Belum ada service.</td>
+            <td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada service.</td>
         </tr>
     @endforelse
 </x-admin.table>

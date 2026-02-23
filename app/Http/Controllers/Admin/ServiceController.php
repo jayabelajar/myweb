@@ -32,12 +32,15 @@ class ServiceController extends Controller
         $data = $request->validate([
             'label' => ['required', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
+            'price' => ['nullable', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            'benefits' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $data['sort_order'] = $data['sort_order'] ?? 0;
+        $data['benefits'] = $this->normalizeBenefits($data['benefits'] ?? null);
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('services', 'public');
         }
@@ -64,12 +67,15 @@ class ServiceController extends Controller
         $data = $request->validate([
             'label' => ['required', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
+            'price' => ['nullable', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            'benefits' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:4096'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $data['sort_order'] = $data['sort_order'] ?? 0;
+        $data['benefits'] = $this->normalizeBenefits($data['benefits'] ?? null);
         if ($request->hasFile('image')) {
             if ($service->image && !Str::startsWith($service->image, ['http://', 'https://', '//'])) {
                 Storage::disk('public')->delete($service->image);
@@ -97,4 +103,24 @@ class ServiceController extends Controller
 
         return redirect()->route('admin.services.index')->with('success', 'Service deleted.');
     }
+
+    private function normalizeBenefits(?string $benefits): ?array
+    {
+        if (!$benefits) {
+            return null;
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $benefits) ?: [];
+        $normalized = [];
+
+        foreach ($lines as $line) {
+            $value = trim($line);
+            if ($value !== '') {
+                $normalized[] = $value;
+            }
+        }
+
+        return $normalized !== [] ? $normalized : null;
+    }
 }
+

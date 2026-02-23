@@ -1,0 +1,62 @@
+.testi-marquee {
+    overflow: hidden;
+}
+
+.testi-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    will-change: transform;
+    animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+
+.testi-track > div {
+    flex: 0 0 auto;
+}
+
+#testi-marquee:hover .testi-track {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(var(--marquee-distance, -50%)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .testi-track { animation: none; }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.stat-card {
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform .6s ease, opacity .6s ease, background-color .3s ease;
+}
+
+.stat-card.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.stat-number {
+    text-shadow: 0 0 18px rgba(255,255,255,0.15);
+}
+
+.stat-card:hover .stat-number {
+    text-shadow: 0 0 28px rgba(59,130,246,0.35);
+}
+
+@keyframes stat-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}

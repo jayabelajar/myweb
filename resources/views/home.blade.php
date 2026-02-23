@@ -3,74 +3,6 @@
 @section('title', 'Reliable Software Studio')
 
 @section('content')
-{{-- Custom CSS untuk menyembunyikan scrollbar tapi tetap bisa di-scroll --}}
-<style>
-
-    .testi-marquee {
-        overflow: hidden;
-    }
-    .testi-track {
-        display: flex;
-        gap: 1.5rem;
-        width: max-content;
-        will-change: transform;
-        animation: marquee var(--marquee-duration, 60s) linear infinite;
-    }
-    .testi-track > div {
-        flex: 0 0 auto;
-    }
-    #testi-marquee:hover .testi-track {
-        animation-play-state: paused;
-    }
-    @keyframes marquee {
-        from { transform: translateX(0); }
-        to { transform: translateX(var(--marquee-distance, -50%)); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        .testi-track { animation: none; }
-    }
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    /* Stats Animation */
-    .stat-card {
-        transform: translateY(8px);
-        opacity: 0;
-        transition: transform .6s ease, opacity .6s ease, background-color .3s ease;
-    }
-    .stat-card.is-visible {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    .stat-number {
-        text-shadow: 0 0 18px rgba(255,255,255,0.15);
-    }
-    .stat-card:hover .stat-number {
-        text-shadow: 0 0 28px rgba(59,130,246,0.35);
-    }
-    @keyframes stat-pop {
-        0% { transform: scale(1); }
-        40% { transform: scale(1.06); }
-        100% { transform: scale(1); }
-    }
-
-    /* Reveal Animations */
-    .reveal-up {
-        opacity: 0;
-        transform: translateY(16px);
-        transition: opacity .7s ease, transform .7s ease;
-    }
-    .reveal-up.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
-
 <section class="flex flex-col items-center justify-center">
     
     {{-- ========================================== --}}
@@ -110,7 +42,7 @@
         <a href="#work"
            class="group bg-transparent text-white border border-white/10 px-8 py-3 rounded-full font-medium text-sm hover:bg-white/5 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2">
             Lihat Layanan
-            <span class="group-hover:translate-y-0.5 transition-transform">↓</span>
+            <span class="group-hover:translate-y-0.5 transition-transform">&darr;</span>
         </a>
     </div>
 
@@ -411,122 +343,13 @@
     </div>
 
 </section>
-
-<script>
-    window.addEventListener('load', () => {
-        const marquee = document.getElementById('testi-marquee');
-        const track = marquee ? marquee.querySelector('.testi-track') : null;
-        if (!track) return;
-
-        const items = Array.from(track.children);
-        items.forEach(item => track.appendChild(item.cloneNode(true)));
-
-        const update = () => {
-            const halfWidth = track.scrollWidth / 2;
-            if (halfWidth <= 0) return;
-            track.style.setProperty('--marquee-distance', `-${halfWidth}px`);
-            const pxPerSec = 40;
-            const duration = Math.max(20, halfWidth / pxPerSec);
-            track.style.setProperty('--marquee-duration', `${duration}s`);
-        };
-
-        let resizeTimer = null;
-        const onResize = () => {
-            if (resizeTimer) clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(update, 150);
-        };
-
-        update();
-        window.addEventListener('resize', onResize);
-    });
-</script>
-
-<script>
-    window.addEventListener('load', () => {
-        const stats = Array.from(document.querySelectorAll('[data-stat]'));
-        if (!stats.length) return;
-
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const animateNumber = (el, to, suffix, duration = 1200) => {
-            const start = performance.now();
-            const from = 0;
-            const step = (now) => {
-                const progress = Math.min((now - start) / duration, 1);
-                const value = Math.round(from + (to - from) * (progress * (2 - progress)));
-                el.textContent = `${value}${suffix || ''}`;
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                } else {
-                    el.style.animation = 'stat-pop 400ms ease';
-                }
-            };
-            requestAnimationFrame(step);
-        };
-
-        const reveal = (card, i) => {
-            const numberEl = card.querySelector('[data-count]');
-            if (numberEl && !card.dataset.animated) {
-                card.dataset.animated = 'true';
-                setTimeout(() => {
-                    card.classList.add('is-visible');
-                    if (prefersReduced) {
-                        const to = Number(numberEl.getAttribute('data-count')) || 0;
-                        const suffix = numberEl.getAttribute('data-suffix') || '';
-                        numberEl.textContent = `${to}${suffix}`;
-                    } else {
-                        animateNumber(
-                            numberEl,
-                            Number(numberEl.getAttribute('data-count')) || 0,
-                            numberEl.getAttribute('data-suffix') || '',
-                            1100
-                        );
-                    }
-                }, i * 120);
-            }
-        };
-
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const idx = stats.indexOf(entry.target);
-                    reveal(entry.target, idx >= 0 ? idx : 0);
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.35 });
-
-        stats.forEach((card, i) => {
-            if (prefersReduced) {
-                reveal(card, i);
-            } else {
-                io.observe(card);
-            }
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const items = Array.from(document.querySelectorAll('[data-reveal]'));
-        if (!items.length) return;
-
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced) {
-            items.forEach(el => el.classList.add('is-visible'));
-            return;
-        }
-
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                const el = entry.target;
-                const delay = Number(el.getAttribute('data-reveal-delay')) || 0;
-                setTimeout(() => el.classList.add('is-visible'), delay);
-                io.unobserve(el);
-            });
-        }, { threshold: 0.25 });
-
-        items.forEach(el => io.observe(el));
-    });
-</script>
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('assets/js/home.js') }}" defer></script>
+@endpush
+
