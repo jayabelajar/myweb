@@ -4,15 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    @php
+        $pageTitle = trim($__env->yieldContent('seo_title'));
+        if ($pageTitle === '') {
+            if (request()->routeIs('home')) {
+                $pageTitle = 'VeritasDev | Reliable Software Studio';
+            } elseif (View::hasSection('title')) {
+                $pageTitle = trim($__env->yieldContent('title')) . ' | VeritasDev';
+            } else {
+                $pageTitle = 'VeritasDev';
+            }
+        }
+
+        $seoDescription = trim($__env->yieldContent('seo_description'));
+        if ($seoDescription === '') {
+            $seoDescription = 'VeritasDev membantu tim membangun software yang rapi, aman, dan scalable dengan fokus pada kualitas engineering dan dampak jangka panjang.';
+        }
+
+        $seoCanonical = trim($__env->yieldContent('seo_canonical'));
+        if ($seoCanonical === '') {
+            $seoCanonical = url()->current();
+        }
+
+        $seoRobots = trim($__env->yieldContent('seo_robots'));
+        if ($seoRobots === '') {
+            $seoRobots = 'index,follow,max-image-preview:large';
+        }
+
+        $seoType = trim($__env->yieldContent('seo_type'));
+        if ($seoType === '') {
+            $seoType = 'website';
+        }
+
+        $seoImage = trim($__env->yieldContent('seo_image'));
+        if ($seoImage === '') {
+            $seoImage = asset('favicon.ico');
+        }
+
+        $seoKeywords = trim($__env->yieldContent('seo_keywords'));
+        $seoPublishedTime = trim($__env->yieldContent('seo_published_time'));
+        $seoModifiedTime = trim($__env->yieldContent('seo_modified_time'));
+    @endphp
+
     <title>
-        @if (request()->routeIs('home'))
-            VeritasDev | Reliable Software Studio
-        @elseif (View::hasSection('title'))
-            @yield('title') | VeritasDev
-        @else
-            VeritasDev
-        @endif
+        {{ $pageTitle }}
     </title>
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="robots" content="{{ $seoRobots }}">
+    <link rel="canonical" href="{{ $seoCanonical }}">
+    <meta name="author" content="VeritasDev">
+    @if ($seoKeywords !== '')
+        <meta name="keywords" content="{{ $seoKeywords }}">
+    @endif
+
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="VeritasDev">
+    <meta property="og:type" content="{{ $seoType }}">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:url" content="{{ $seoCanonical }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    @if ($seoPublishedTime !== '')
+        <meta property="article:published_time" content="{{ $seoPublishedTime }}">
+    @endif
+    @if ($seoModifiedTime !== '')
+        <meta property="article:modified_time" content="{{ $seoModifiedTime }}">
+    @endif
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
 
     {{-- Tailwind CDN --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,6 +83,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+    @stack('structured_data')
     @stack('styles')
 </head>
 

@@ -4,7 +4,7 @@
 <div class="flex items-center justify-between mb-6">
     <div>
         <h1 class="text-2xl font-bold text-white">New Package</h1>
-        <p class="text-sm text-zinc-500">Tambah paket pricing baru.</p>
+        <p class="text-sm text-zinc-500">Tambah paket layanan baru.</p>
     </div>
 </div>
 

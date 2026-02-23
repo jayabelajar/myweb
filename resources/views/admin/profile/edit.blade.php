@@ -11,13 +11,9 @@
 <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6">
     <div class="bg-zinc-900/20 border border-white/5 rounded-2xl p-6">
         <div class="flex items-center gap-4">
-            @if ($user?->avatar)
-                <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="w-16 h-16 rounded-2xl object-cover border border-white/10">
-            @else
-                <div class="w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center text-sm font-semibold text-white">
-                    {{ collect(explode(' ', $user->name))->map(fn($p) => strtoupper(substr($p, 0, 1)))->implode('') }}
-                </div>
-            @endif
+            <div class="w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center text-sm font-semibold text-white">
+                {{ collect(explode(' ', $user->name))->map(fn($p) => strtoupper(substr($p, 0, 1)))->implode('') }}
+            </div>
             <div>
                 <div class="text-lg font-semibold text-white">{{ $user->name }}</div>
                 <div class="text-xs text-zinc-500">{{ $user->role ?? 'Administrator' }}</div>
@@ -45,11 +41,6 @@
                 <label class="text-xs uppercase tracking-widest text-zinc-500">Email</label>
                 <input type="email" name="email" value="{{ old('email', $user->email) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
             </div>
-            <div class="md:col-span-2">
-                <label class="text-xs uppercase tracking-widest text-zinc-500">Avatar</label>
-                <input type="file" name="avatar" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
-                <p class="mt-2 text-[11px] text-zinc-500">Upload avatar baru. Maks 4MB.</p>
-            </div>
         </div>
 
         <div class="border-t border-white/5 pt-5">
@@ -57,11 +48,27 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="text-xs uppercase tracking-widest text-zinc-500">New Password</label>
-                    <input type="password" name="password" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Minimal 8 karakter">
+                    <div class="relative mt-2">
+                        <input id="profile-password" type="password" name="password" class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-12 text-sm text-white" placeholder="Minimal 8 karakter">
+                        <button type="button" class="absolute inset-y-0 right-0 px-4 text-zinc-500 hover:text-white" data-password-toggle data-password-target="profile-password" aria-label="Toggle password visibility">
+                            <svg viewBox="0 0 24 24" class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <label class="text-xs uppercase tracking-widest text-zinc-500">Confirm Password</label>
-                    <input type="password" name="password_confirmation" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+                    <div class="relative mt-2">
+                        <input id="profile-password-confirmation" type="password" name="password_confirmation" class="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 pr-12 text-sm text-white">
+                        <button type="button" class="absolute inset-y-0 right-0 px-4 text-zinc-500 hover:text-white" data-password-toggle data-password-target="profile-password-confirmation" aria-label="Toggle password visibility">
+                            <svg viewBox="0 0 24 24" class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,4 +80,14 @@
         </div>
     </form>
 </div>
+<script>
+    document.querySelectorAll('[data-password-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-password-target');
+            const input = targetId ? document.getElementById(targetId) : null;
+            if (!input) return;
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+    });
+</script>
 @endsection

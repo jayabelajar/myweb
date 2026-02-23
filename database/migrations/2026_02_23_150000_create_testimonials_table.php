@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('service_plans', function (Blueprint $table) {
+        Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
+            $table->string('type', 20);
             $table->string('name');
-            $table->string('price');
-            $table->text('description');
-            $table->json('features')->nullable();
-            $table->boolean('highlight')->default(false);
-            $table->string('cta_label')->default('Konsultasi');
+            $table->string('role')->nullable();
+            $table->text('quote')->nullable();
+            $table->string('badge', 20)->nullable();
             $table->unsignedInteger('sort_order')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->index(['type', 'is_active', 'sort_order']);
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('service_plans');
+        Schema::dropIfExists('testimonials');
     }
 };

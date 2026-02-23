@@ -18,7 +18,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'revenueos',
                 'category' => 'SaaS Platform',
                 'description' => 'Web CRM + billing engine dengan role-based access dan audit log.',
-                'image' => 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Laravel', 'Postgres', 'Stripe'],
             ],
             [
@@ -26,7 +26,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'urbanmart',
                 'category' => 'E-Commerce',
                 'description' => 'Storefront web + inventory realtime dan checkout cepat.',
-                'image' => 'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Next.js', 'Redis', 'Elastic'],
             ],
             [
@@ -34,7 +34,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'payglow',
                 'category' => 'Fintech Web',
                 'description' => 'Portal merchant web untuk payout, settlement, dan laporan.',
-                'image' => 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Laravel', 'Queue', 'Observability'],
             ],
             [
@@ -42,7 +42,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'caresync',
                 'category' => 'HealthTech Web',
                 'description' => 'Portal pasien + jadwal dokter dengan alur booking rapi.',
-                'image' => 'https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Vue', 'Laravel', 'Twilio'],
             ],
             [
@@ -50,7 +50,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'agripulse',
                 'category' => 'Analytics Web',
                 'description' => 'Dashboard web untuk monitoring sensor & report.',
-                'image' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Vue', 'API', 'Charts'],
             ],
             [
@@ -58,7 +58,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'skillforge',
                 'category' => 'Education Web',
                 'description' => 'LMS web modular dengan kelas, quiz, dan progress.',
-                'image' => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Laravel', 'S3', 'Video'],
             ],
             [
@@ -66,7 +66,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'pulseiq',
                 'category' => 'Analytics Web',
                 'description' => 'Web analytics real-time untuk growth team.',
-                'image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['React', 'Charts', 'API'],
             ],
             [
@@ -74,7 +74,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'routex',
                 'category' => 'Operations Web',
                 'description' => 'Web ops untuk route planning dan fleet tracking.',
-                'image' => 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Laravel', 'Maps', 'Redis'],
             ],
             [
@@ -82,7 +82,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'mediloop',
                 'category' => 'Clinic Web',
                 'description' => 'Web manajemen klinik dengan antrian pintar.',
-                'image' => 'https://images.unsplash.com/photo-1504814532849-92702c8f4f4f?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Vue', 'MySQL', 'Queue'],
             ],
             [
@@ -90,7 +90,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'cardspring',
                 'category' => 'Fintech Web',
                 'description' => 'Web portal untuk expense management dan approval flow.',
-                'image' => 'https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Laravel', 'Postgres', 'Queue'],
             ],
             [
@@ -98,7 +98,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'streamhive',
                 'category' => 'Media Web',
                 'description' => 'Portal streaming internal dengan akses role-based.',
-                'image' => 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Next.js', 'S3', 'Streaming'],
             ],
             [
@@ -106,7 +106,7 @@ class ProjectSeeder extends Seeder
                 'slug' => 'shieldops',
                 'category' => 'Security Web',
                 'description' => 'Portal security audit dengan access management.',
-                'image' => 'https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1200&q=80',
+                'image' => null,
                 'stack' => ['Node', 'WAF', 'SIEM'],
             ],
         ];
@@ -119,3 +119,4 @@ class ProjectSeeder extends Seeder
         }
     }
 }
+

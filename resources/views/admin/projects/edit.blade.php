@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ route('admin.projects.update', $project) }}" class="space-y-5">
+<form method="POST" action="{{ route('admin.projects.update', $project) }}" enctype="multipart/form-data" class="space-y-5">
     @csrf
     @method('PUT')
     @if (request('drawer'))
@@ -28,8 +28,20 @@
             <input name="category" value="{{ old('category', $project->category) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>
         </div>
         <div>
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Image URL</label>
-            <input name="image" value="{{ old('image', $project->image) }}" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Image</label>
+            <input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">
+            <p class="mt-2 text-[11px] text-zinc-500">Upload gambar baru untuk mengganti yang lama.</p>
+            @if ($project->image)
+                @php
+                    $image = $project->image;
+                    $imageUrl = \Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//'])
+                        ? $image
+                        : asset('storage/' . $image);
+                @endphp
+                <div class="mt-3">
+                    <img src="{{ $imageUrl }}" alt="{{ $project->title }}" class="w-40 h-24 rounded-xl object-cover border border-white/10">
+                </div>
+            @endif
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Description</label>

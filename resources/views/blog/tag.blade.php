@@ -25,11 +25,20 @@
                         <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
                         @php
                             $image = $post->image;
-                            $imageUrl = $image
-                                ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//']) ? $image : asset('storage/' . $image))
-                                : 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80';
+                            $imageUrl = null;
+                            if ($image) {
+                                $imageUrl = \Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//'])
+                                    ? $image
+                                    : asset('storage/' . $image);
+                            }
                         @endphp
-                        <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-44 object-cover opacity-90">
+                        @if ($imageUrl)
+                            <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-44 object-cover opacity-90">
+                        @else
+                            <div class="w-full h-44 flex items-center justify-center text-[11px] uppercase tracking-widest text-zinc-500 bg-zinc-900/50 border-b border-white/5">
+                                No Image
+                            </div>
+                        @endif
                     </div>
                 </a>
                 <div class="p-6">

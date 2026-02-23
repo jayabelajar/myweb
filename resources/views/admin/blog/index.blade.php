@@ -1,4 +1,4 @@
-﻿@extends('admin.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

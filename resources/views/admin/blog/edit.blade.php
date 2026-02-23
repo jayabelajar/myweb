@@ -78,7 +78,7 @@
                 }
             @endphp
             <textarea name="content" rows="10" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white">{{ $contentValue }}</textarea>
-            <p class="mt-2 text-[11px] text-zinc-500">Gunakan Markdown: `# Judul`, `## Subjudul`, list `- item`, dan gambar `![alt](url)`.</p>
+            <p class="mt-2 text-[11px] text-zinc-500">Gunakan Markdown: `# Judul`, `## Subjudul`, list `- item`, gambar `![alt](url)`, dan pisahkan paragraf dengan satu baris kosong.</p>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Tags</label>

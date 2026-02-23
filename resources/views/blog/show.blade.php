@@ -1,6 +1,32 @@
-@extends('layouts.app')
+ï»¿@extends('layouts.app')
 
 @section('title', 'Blog Detail')
+@if ($post)
+    @php
+        $postImage = $post->image;
+        $postSeoImage = $postImage
+            ? (\Illuminate\Support\Str::startsWith($postImage, ['http://', 'https://', '//']) ? $postImage : asset('storage/' . $postImage))
+            : asset('favicon.ico');
+        $postSeoDescription = trim((string) ($post->excerpt ?: $post->intro));
+        if ($postSeoDescription === '') {
+            $postSeoDescription = 'Artikel insight dari VeritasDev.';
+        }
+        $postSeoKeywords = $post->tags->pluck('name')->implode(', ');
+    @endphp
+    @section('seo_title', $post->title . ' | Blog VeritasDev')
+    @section('seo_description', $postSeoDescription)
+    @section('seo_canonical', route('blog.show', $post->slug))
+    @section('seo_type', 'article')
+    @section('seo_image', $postSeoImage)
+    @section('seo_keywords', $postSeoKeywords)
+    @section('seo_published_time', optional($post->published_at)->toAtomString() ?? '')
+    @section('seo_modified_time', optional($post->updated_at)->toAtomString() ?? '')
+@else
+    @section('seo_title', 'Artikel Tidak Ditemukan | Blog VeritasDev')
+    @section('seo_description', 'Artikel yang kamu cari tidak tersedia. Lihat artikel lain di Blog VeritasDev.')
+    @section('seo_canonical', route('blog'))
+    @section('seo_robots', 'noindex,follow')
+@endif
 
 @section('content')
 @if (!$post)
@@ -65,44 +91,111 @@
                 <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
                 @php
                     $image = $post->image;
-                    $imageUrl = $image
-                        ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//']) ? $image : asset('storage/' . $image))
-                        : 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80';
+                    $imageUrl = null;
+                    if ($image) {
+                        $imageUrl = \Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//'])
+                            ? $image
+                            : asset('storage/' . $image);
+                    }
                 @endphp
-                <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-64 md:h-80 object-cover opacity-90">
+                @if ($imageUrl)
+                    <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-64 md:h-80 object-cover opacity-90">
+                @else
+                    <div class="w-full h-64 md:h-80 flex items-center justify-center text-xs uppercase tracking-widest text-zinc-500">
+                        No Cover Image
+                    </div>
+                @endif
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div class="lg:col-span-8 space-y-10 reveal-up" data-reveal data-reveal-delay="60">
-                <p class="text-lg text-zinc-300 leading-relaxed">{{ $post->intro }}</p>
+                @php
+                    $randomLinks = $posts->shuffle()->take(1);
+                    $contentTop = null;
+                    $contentBottom = null;
+                    if (!empty($post->content)) {
+                        $normalizedContent = trim((string) $post->content);
+                        $chunks = preg_split('/\n(?=#{1,3}\s)/m', $normalizedContent) ?: [];
+                        $chunks = array_values(array_filter(array_map('trim', $chunks), fn ($chunk) => $chunk !== ''));
+
+                        if (count($chunks) < 2) {
+                            $chunks = preg_split('/\n{2,}/', $normalizedContent) ?: [];
+                            $chunks = array_values(array_filter(array_map('trim', $chunks), fn ($chunk) => $chunk !== ''));
+                        }
+
+                        if (count($chunks) >= 2) {
+                            $midpoint = (int) ceil(count($chunks) / 2);
+                            $contentTop = implode("\n\n", array_slice($chunks, 0, $midpoint));
+                            $contentBottom = implode("\n\n", array_slice($chunks, $midpoint));
+                        } else {
+                            $contentTop = $normalizedContent;
+                        }
+                    }
+                @endphp
+                @if (filled($post->intro))
+                    <div class="markdown-content markdown-intro text-zinc-300">
+                        {!! \Illuminate\Support\Str::markdown($post->intro, ['html_input' => 'strip', 'allow_unsafe_links' => false]) !!}
+                    </div>
+                @endif
                 @if (!empty($post->content))
                     <div class="markdown-content text-zinc-300 leading-relaxed">
-                        {!! \Illuminate\Support\Str::markdown($post->content) !!}
+                        {!! \Illuminate\Support\Str::markdown($contentTop ?: $post->content, ['html_input' => 'strip', 'allow_unsafe_links' => false]) !!}
                     </div>
+                    @if (filled($contentBottom))
+                        <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-5">
+                            <div class="text-[10px] uppercase tracking-widest text-sky-400 mb-3">Baca Juga</div>
+                            <div class="space-y-3">
+                                @foreach ($randomLinks as $random)
+                                    <a href="{{ route('blog.show', $random->slug) }}" class="group flex items-center justify-between text-sm text-zinc-300 hover:text-white transition-colors">
+                                        <span class="font-medium">{{ $random->title }}</span>
+                                        <span class="text-zinc-600 group-hover:text-sky-400 transition-colors">&rarr;</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="markdown-content text-zinc-300 leading-relaxed">
+                            {!! \Illuminate\Support\Str::markdown($contentBottom, ['html_input' => 'strip', 'allow_unsafe_links' => false]) !!}
+                        </div>
+                    @endif
                 @elseif (!empty($post->sections))
+                    @php
+                        $sectionMidpoint = (int) ceil(count($post->sections) / 2);
+                    @endphp
                     @foreach ($post->sections as $section)
                         <div class="space-y-3">
                             <h2 class="text-2xl font-semibold text-white">{{ $section['title'] }}</h2>
                             <p class="text-zinc-400 leading-relaxed">{{ $section['text'] }}</p>
                         </div>
+                        @if ($loop->iteration === $sectionMidpoint)
+                            <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-5">
+                                <div class="text-[10px] uppercase tracking-widest text-sky-400 mb-3">Baca Juga</div>
+                                <div class="space-y-3">
+                                    @foreach ($randomLinks as $random)
+                                        <a href="{{ route('blog.show', $random->slug) }}" class="group flex items-center justify-between text-sm text-zinc-300 hover:text-white transition-colors">
+                                            <span class="font-medium">{{ $random->title }}</span>
+                                            <span class="text-zinc-600 group-hover:text-sky-400 transition-colors">&rarr;</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     @endforeach
                 @endif
 
-                @php
-                    $randomLinks = $posts->shuffle()->take(1);
-                @endphp
-                <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-5">
-                    <div class="text-[10px] uppercase tracking-widest text-sky-400 mb-3">Baca Juga</div>
-                    <div class="space-y-3">
-                        @foreach ($randomLinks as $random)
-                            <a href="{{ route('blog.show', $random->slug) }}" class="group flex items-center justify-between text-sm text-zinc-300 hover:text-white transition-colors">
-                                <span class="font-medium">{{ $random->title }}</span>
-                                <span class="text-zinc-600 group-hover:text-sky-400 transition-colors">&rarr;</span>
-                            </a>
-                        @endforeach
+                @if (empty($post->content) && empty($post->sections))
+                    <div class="rounded-2xl border border-white/10 bg-zinc-900/40 p-5">
+                        <div class="text-[10px] uppercase tracking-widest text-sky-400 mb-3">Baca Juga</div>
+                        <div class="space-y-3">
+                            @foreach ($randomLinks as $random)
+                                <a href="{{ route('blog.show', $random->slug) }}" class="group flex items-center justify-between text-sm text-zinc-300 hover:text-white transition-colors">
+                                    <span class="font-medium">{{ $random->title }}</span>
+                                    <span class="text-zinc-600 group-hover:text-sky-400 transition-colors">&rarr;</span>
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="pt-8">
                     <h3 class="text-sm uppercase tracking-widest text-white mb-6">Related Posts</h3>
@@ -114,7 +207,7 @@
                                     <span>{{ $related->read_time }}</span>
                                 </div>
                                 <h4 class="text-lg font-bold text-white mb-2 leading-snug">{{ $related->title }}</h4>
-                                <div class="text-xs text-zinc-500 mb-4">{{ $related->author }} • {{ optional($related->published_at)->format('d M Y') }}</div>
+                                <div class="text-xs text-zinc-500 mb-4">{{ $related->author }} &bull; {{ optional($related->published_at)->format('d M Y') }}</div>
                                 <a href="{{ route('blog.show', $related->slug) }}" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-400 hover:text-sky-300">
                                     Baca Detail <span class="text-sm">&rarr;</span>
                                 </a>
@@ -135,7 +228,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <div class="text-sm font-semibold text-white group-hover:text-sky-300 transition-colors">{{ $popular->title }}</div>
-                                    <div class="text-xs text-zinc-500 mt-1">{{ optional($popular->published_at)->format('d M Y') }} • {{ $popular->read_time }}</div>
+                                    <div class="text-xs text-zinc-500 mt-1">{{ optional($popular->published_at)->format('d M Y') }} &bull; {{ $popular->read_time }}</div>
                                 </div>
                             </a>
                         @endforeach
@@ -157,3 +250,132 @@
     </section>
 @endif
 @endsection
+@push('styles')
+<style>
+    .markdown-content > * + * {
+        margin-top: 1rem;
+    }
+
+    .markdown-content p {
+        color: rgb(212 212 216);
+        line-height: 1.9;
+        margin: 0;
+    }
+
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3,
+    .markdown-content h4 {
+        color: rgb(255 255 255);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+    }
+
+    .markdown-content h1 { font-size: 1.9rem; margin-top: 1.75rem; }
+    .markdown-content h2 { font-size: 1.55rem; margin-top: 1.5rem; }
+    .markdown-content h3 { font-size: 1.3rem; margin-top: 1.25rem; }
+    .markdown-content h4 { font-size: 1.1rem; margin-top: 1rem; }
+
+    .markdown-content ul,
+    .markdown-content ol {
+        margin: 0;
+        padding-left: 1.25rem;
+        color: rgb(212 212 216);
+    }
+
+    .markdown-content li + li {
+        margin-top: 0.45rem;
+    }
+
+    .markdown-content blockquote {
+        margin: 0;
+        padding: 0.875rem 1rem;
+        border-left: 3px solid rgb(56 189 248 / 0.7);
+        background: rgb(255 255 255 / 0.04);
+        border-radius: 0.65rem;
+        color: rgb(228 228 231);
+    }
+
+    .markdown-content code {
+        font-size: 0.85em;
+        background: rgb(255 255 255 / 0.08);
+        border: 1px solid rgb(255 255 255 / 0.08);
+        border-radius: 0.375rem;
+        padding: 0.1rem 0.35rem;
+        color: rgb(224 231 255);
+    }
+
+    .markdown-content pre {
+        margin: 0;
+        background: rgb(9 9 11);
+        border: 1px solid rgb(255 255 255 / 0.1);
+        border-radius: 0.85rem;
+        padding: 0.95rem;
+        overflow-x: auto;
+    }
+
+    .markdown-content pre code {
+        background: transparent;
+        border: 0;
+        padding: 0;
+        color: rgb(228 228 231);
+    }
+
+    .markdown-content a {
+        color: rgb(56 189 248);
+        text-decoration: underline;
+        text-decoration-color: rgb(56 189 248 / 0.45);
+        text-underline-offset: 3px;
+    }
+
+    .markdown-content a:hover {
+        color: rgb(125 211 252);
+    }
+
+    .markdown-content img {
+        width: 100%;
+        border-radius: 0.95rem;
+        border: 1px solid rgb(255 255 255 / 0.1);
+    }
+
+    .markdown-intro p {
+        font-size: 1.05rem;
+        color: rgb(228 228 231);
+    }
+</style>
+@endpush
+
+@if ($post)
+@push('structured_data')
+@php
+    $blogPostingSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BlogPosting',
+        'headline' => $post->title,
+        'description' => trim((string) ($post->excerpt ?: $post->intro)),
+        'author' => [
+            '@type' => 'Person',
+            'name' => $post->author ?: 'VeritasDev Team',
+        ],
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => 'VeritasDev',
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => asset('favicon.ico'),
+            ],
+        ],
+        'mainEntityOfPage' => route('blog.show', $post->slug),
+        'image' => $postSeoImage,
+        'datePublished' => optional($post->published_at)->toAtomString(),
+        'dateModified' => optional($post->updated_at)->toAtomString(),
+    ];
+@endphp
+<script type="application/ld+json">
+{!! json_encode($blogPostingSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
+@endif
+
+

@@ -25,7 +25,7 @@ class PostSeeder extends Seeder
                 'category' => 'engineering',
                 'read_time' => '6 min read',
                 'author' => 'Rafi Pratama',
-                'image' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(35),
                 'sections' => [
                     [
@@ -52,7 +52,7 @@ class PostSeeder extends Seeder
                 'category' => 'design',
                 'read_time' => '7 min read',
                 'author' => 'Nadia Putri',
-                'image' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(50),
                 'sections' => [
                     [
@@ -79,7 +79,7 @@ class PostSeeder extends Seeder
                 'category' => 'performance',
                 'read_time' => '8 min read',
                 'author' => 'Dion Wicak',
-                'image' => 'https://images.unsplash.com/photo-1555949963-aa79dcee981d?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(62),
                 'sections' => [
                     [
@@ -106,7 +106,7 @@ class PostSeeder extends Seeder
                 'category' => 'ops',
                 'read_time' => '5 min read',
                 'author' => 'Salsa Anindya',
-                'image' => 'https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(88),
                 'sections' => [
                     [
@@ -133,7 +133,7 @@ class PostSeeder extends Seeder
                 'category' => 'product',
                 'read_time' => '6 min read',
                 'author' => 'Raka Jatmiko',
-                'image' => 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(104),
                 'sections' => [
                     [
@@ -160,7 +160,7 @@ class PostSeeder extends Seeder
                 'category' => 'infrastructure',
                 'read_time' => '9 min read',
                 'author' => 'Alya Dewi',
-                'image' => 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80',
+                'image' => null,
                 'published_at' => Carbon::now()->subDays(128),
                 'sections' => [
                     [
@@ -234,3 +234,4 @@ class PostSeeder extends Seeder
         return $minutes . ' min read';
     }
 }
+

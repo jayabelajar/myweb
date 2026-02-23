@@ -17,9 +17,9 @@ use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\Admin\BlogCategoryController as AdminBlogCategoryController;
 use App\Http\Controllers\Admin\BlogTagController as AdminBlogTagController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
-use App\Http\Controllers\Admin\WorkflowController as AdminWorkflowController;
-use App\Http\Controllers\Admin\PricingController as AdminPricingController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\HomepageSectionController as AdminHomepageSectionController;
+use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
@@ -61,6 +61,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('projects', AdminProjectController::class)->except(['show']);
     Route::resource('services', AdminServiceController::class)->except(['show']);
     Route::resource('teams', AdminTeamController::class)->except(['show']);
+    Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
+    Route::resource('homepage-sections', AdminHomepageSectionController::class)->except(['show']);
     Route::resource('blog', AdminBlogController::class)->except(['show']);
     Route::resource('blog/categories', AdminBlogCategoryController::class)
         ->names('blog.categories')
@@ -69,6 +71,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->names('blog.tags')
         ->except(['show']);
     Route::resource('contact', AdminContactController::class)->except(['show']);
-    Route::resource('workflows', AdminWorkflowController::class)->except(['show']);
-    Route::resource('pricing', AdminPricingController::class)->except(['show']);
 });

@@ -44,7 +44,15 @@
                 </div>
                 <div>
                     <label class="text-xs uppercase tracking-widest text-zinc-500">Password</label>
-                    <input type="password" name="password" placeholder="••••••••" required class="mt-2 w-full rounded-xl border border-white/10 bg-zinc-900/60 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
+                    <div class="relative mt-2">
+                        <input id="admin-login-password" type="password" name="password" placeholder="********" required class="w-full rounded-xl border border-white/10 bg-zinc-900/60 px-4 py-3 pr-12 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
+                        <button type="button" class="absolute inset-y-0 right-0 px-4 text-zinc-500 hover:text-white" data-password-toggle data-password-target="admin-login-password" aria-label="Toggle password visibility">
+                            <svg viewBox="0 0 24 24" class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-bold uppercase tracking-widest text-black hover:bg-zinc-200 transition-transform hover:scale-[1.02]">
                     Sign In
@@ -52,5 +60,15 @@
             </form>
         </div>
     </section>
+    <script>
+        document.querySelectorAll('[data-password-toggle]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-password-target');
+                const input = targetId ? document.getElementById(targetId) : null;
+                if (!input) return;
+                input.type = input.type === 'password' ? 'text' : 'password';
+            });
+        });
+    </script>
 </body>
 </html>

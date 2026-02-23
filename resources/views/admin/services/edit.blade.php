@@ -4,7 +4,7 @@
 <div class="flex items-center justify-between mb-6">
     <div>
         <h1 class="text-2xl font-bold text-white">Edit Package</h1>
-        <p class="text-sm text-zinc-500">Update paket pricing.</p>
+        <p class="text-sm text-zinc-500">Update paket layanan.</p>
     </div>
 </div>
 

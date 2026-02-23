@@ -1,10 +1,10 @@
-﻿@extends('admin.layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
     <div>
         <h1 class="text-2xl font-bold text-white">Service Packages</h1>
-        <p class="text-sm text-zinc-500">Kelola paket pricing yang tampil di halaman Services.</p>
+        <p class="text-sm text-zinc-500">Kelola paket layanan yang tampil di halaman Services.</p>
     </div>
     <a href="{{ route('admin.services.create') }}" data-drawer-url="{{ route('admin.services.create', ['drawer' => 1]) }}" data-drawer-title="New Package" class="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30">
         New Package

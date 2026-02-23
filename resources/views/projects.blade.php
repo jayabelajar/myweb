@@ -20,10 +20,16 @@
 
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto mb-10 reveal-up" data-reveal>
         @foreach ($projects as $project)
+            @php
+                $image = $project->image;
+                $imageUrl = $image
+                    ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//']) ? $image : asset('storage/' . $image))
+                    : 'https://via.placeholder.com/800x450/111827/9ca3af?text=Project';
+            @endphp
             <div class="group relative bg-zinc-900/20 border border-white/5 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
                 <div class="relative">
                     <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10 pointer-events-none"></div>
-                    <img src="{{ $project->image }}" alt="{{ $project->title }}" class="w-full h-40 object-cover opacity-90">
+                    <img src="{{ $imageUrl }}" alt="{{ $project->title }}" class="w-full h-40 object-cover opacity-90">
                 </div>
                 <div class="p-6">
                     <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-3">{{ $project->category }}</div>

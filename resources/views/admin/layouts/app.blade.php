@@ -162,6 +162,14 @@
     </style>
 @php
     $isDrawer = request()->boolean('drawer');
+    $authUser = auth()->user();
+    $authName = $authUser?->name ?? 'Admin';
+    $authEmail = $authUser?->email ?? 'admin@example.com';
+    $authInitials = collect(explode(' ', trim($authName)))
+        ->filter()
+        ->map(fn($part) => strtoupper(substr($part, 0, 1)))
+        ->take(2)
+        ->implode('');
 @endphp
 </head>
 <body class="min-h-screen antialiased" id="admin-body">
@@ -193,30 +201,33 @@
                                 <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7"></path><path d="M9 22V12h6v10"></path></svg>
                                 <span class="sidebar-label">Dashboard</span>
                             </a>
-                            <a href="{{ route('admin.projects.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.projects.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
-                                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
-                                <span class="sidebar-label">Projects</span>
-                            </a>
+                            @php
+                                $isWebsiteMenu = request()->routeIs('admin.homepage-sections.*')
+                                    || request()->routeIs('admin.projects.*')
+                                    || request()->routeIs('admin.services.*')
+                                    || request()->routeIs('admin.teams.*')
+                                    || request()->routeIs('admin.testimonials.*')
+                                    || request()->routeIs('admin.contact.*');
+                            @endphp
                             <div class="space-y-1">
-                                <button type="button" class="sidebar-submenu-toggle w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.services.*') || request()->routeIs('admin.workflows.*') || request()->routeIs('admin.pricing.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}" data-submenu-toggle="services">
+                                <button type="button" class="sidebar-submenu-toggle w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl {{ $isWebsiteMenu ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}" data-submenu-toggle="website">
                                     <span class="flex items-center gap-3">
-                                        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
-                                        <span class="sidebar-label">Services</span>
+                                        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18v14H3z"></path><path d="M3 10h18"></path><path d="M8 5v14"></path></svg>
+                                        <span class="sidebar-label">Website</span>
                                     </span>
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4 transition-transform duration-200" data-submenu-icon="services" fill="none" stroke="currentColor" stroke-width="2">
+                                    <svg viewBox="0 0 24 24" class="w-4 h-4 transition-transform duration-200 {{ $isWebsiteMenu ? 'rotate-180' : '' }}" data-submenu-icon="website" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M6 9l6 6 6-6"></path>
                                     </svg>
                                 </button>
-                                <div class="sidebar-submenu ml-7 space-y-1 text-[12px] {{ request()->routeIs('admin.services.*') || request()->routeIs('admin.workflows.*') || request()->routeIs('admin.pricing.*') ? '' : 'hidden' }}" data-submenu="services">
-                                    <a href="{{ route('admin.services.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">All Services</a>
-                                    <a href="{{ route('admin.workflows.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Workflow</a>
-                                    <a href="{{ route('admin.pricing.index') }}" class="block px-3 py-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/5">Pricing</a>
+                                <div class="sidebar-submenu ml-7 space-y-1 text-[12px] {{ $isWebsiteMenu ? '' : 'hidden' }}" data-submenu="website">
+                                    <a href="{{ route('admin.homepage-sections.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.homepage-sections.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Homepage Sections</a>
+                                    <a href="{{ route('admin.projects.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.projects.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Projects</a>
+                                    <a href="{{ route('admin.services.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.services.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Services</a>
+                                    <a href="{{ route('admin.teams.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.teams.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Teams</a>
+                                    <a href="{{ route('admin.testimonials.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.testimonials.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Testimonials</a>
+                                    <a href="{{ route('admin.contact.index') }}" class="block px-3 py-2 rounded-lg {{ request()->routeIs('admin.contact.*') ? 'text-zinc-100 bg-white/5' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5' }}">Contact</a>
                                 </div>
                             </div>
-                            <a href="{{ route('admin.teams.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.teams.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
-                                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"></circle><path d="M5 21a7 7 0 0 1 14 0"></path></svg>
-                                <span class="sidebar-label">Teams</span>
-                            </a>
                             <div class="space-y-1">
                                 <button type="button" class="sidebar-submenu-toggle w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.blog.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}" data-submenu-toggle="blog">
                                     <span class="flex items-center gap-3">
@@ -240,10 +251,6 @@
                                 </svg>
                                 <span class="sidebar-label">Profile</span>
                             </a>
-                            <a href="{{ route('admin.contact.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2 rounded-xl {{ request()->routeIs('admin.contact.*') ? 'bg-white/5 text-zinc-100' : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/5' }}">
-                                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H4z"></path><path d="M22 20H2"></path></svg>
-                                <span class="sidebar-label">Contact</span>
-                            </a>
                         </nav>
                     </div>
 
@@ -253,10 +260,12 @@
                 <div class="px-4 pb-4 pt-2 border-t border-white/5 sidebar-footer">
                     <div class="rounded-2xl border border-white/5 bg-zinc-900/40 p-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white text-xs">VD</div>
+                            <div class="w-9 h-9 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white text-xs font-semibold">
+                                {{ $authInitials ?: 'AD' }}
+                            </div>
                             <div class="flex-1 sidebar-footer-text">
-                                <div class="text-sm text-zinc-100 font-semibold">Admin</div>
-                                <div class="text-[11px] text-zinc-500/70">veritasdev.com</div>
+                                <div class="text-sm text-zinc-100 font-semibold">{{ $authName }}</div>
+                                <div class="text-[11px] text-zinc-500/70">{{ $authEmail }}</div>
                             </div>
                             <form method="POST" action="{{ route('admin.logout') }}">
                                 @csrf
@@ -309,12 +318,12 @@
                     <div class="flex items-center gap-2 sm:gap-3 ml-auto justify-end">
                         <div class="relative hidden sm:block">
                             <button id="admin-profile-btn" type="button" class="inline-flex items-center justify-center rounded-full border border-white/10 w-9 h-9 text-zinc-300 hover:text-zinc-100 hover:border-white/20">
-                                <span class="text-[11px] font-semibold">AD</span>
+                                <span class="text-[11px] font-semibold">{{ $authInitials ?: 'AD' }}</span>
                             </button>
                             <div id="admin-profile-menu" class="hidden absolute right-0 mt-3 w-56 rounded-2xl border border-white/10 bg-[#0b0f14] shadow-2xl p-2 z-50">
                                 <div class="px-3 py-3 border-b border-white/5">
-                                    <div class="text-sm text-zinc-100 font-semibold">Admin</div>
-                                    <div class="text-[11px] text-zinc-500/70">veritasdev.com</div>
+                                    <div class="text-sm text-zinc-100 font-semibold">{{ $authName }}</div>
+                                    <div class="text-[11px] text-zinc-500/70">{{ $authEmail }}</div>
                                 </div>
                                 <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-white/5 rounded-lg">
                                     Profile

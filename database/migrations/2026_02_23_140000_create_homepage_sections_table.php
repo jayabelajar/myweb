@@ -6,20 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('workflow_steps', function (Blueprint $table) {
+        Schema::create('homepage_sections', function (Blueprint $table) {
             $table->id();
-            $table->string('label');
-            $table->string('title');
-            $table->text('description');
+            $table->string('key')->unique();
+            $table->string('name');
             $table->unsignedInteger('sort_order')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_steps');
+        Schema::dropIfExists('homepage_sections');
     }
 };

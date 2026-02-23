@@ -10,6 +10,7 @@ class BlogController extends Controller
     public function index()
     {
         $posts = Post::with('category')
+            ->whereNotNull('published_at')
             ->orderByDesc('published_at')
             ->get();
 
@@ -22,11 +23,22 @@ class BlogController extends Controller
     public function show(string $slug)
     {
         $post = Post::with(['category', 'tags'])
+            ->whereNotNull('published_at')
             ->where('slug', $slug)
             ->first();
 
+        if (!$post) {
+            return response()->view('blog.show', [
+                'title' => 'Artikel Tidak Ditemukan',
+                'post' => null,
+                'posts' => collect(),
+                'topTags' => collect(),
+            ], 404);
+        }
+
         $posts = Post::with('category')
-            ->when($post, fn($query) => $query->where('id', '!=', $post->id))
+            ->whereNotNull('published_at')
+            ->where('id', '!=', $post->id)
             ->orderByDesc('published_at')
             ->get();
 

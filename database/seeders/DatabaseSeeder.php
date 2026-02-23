@@ -31,10 +31,10 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             ProjectSeeder::class,
             ServiceSeeder::class,
-            ServicePlanSeeder::class,
             TeamSeeder::class,
+            TestimonialSeeder::class,
             ContactSettingSeeder::class,
-            WorkflowStepSeeder::class,
+            HomepageSectionSeeder::class,
         ]);
     }
 }

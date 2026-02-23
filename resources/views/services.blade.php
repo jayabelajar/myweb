@@ -75,25 +75,5 @@
         </div>
     </div>
 
-    <div class="w-full max-w-6xl mx-auto mb-20 reveal-up" data-reveal>
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-white tracking-tight mb-2">
-                Workflow <span class="text-zinc-500">Execution.</span>
-            </h2>
-            <p class="text-zinc-500 text-sm max-w-sm mx-auto">
-                Proses kerja yang rapi untuk memastikan hasil konsisten, timeline jelas, dan komunikasi transparan.
-            </p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            @foreach ($workflows as $workflow)
-                <div class="bg-zinc-900/30 border border-white/5 rounded-2xl p-6">
-                    <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-3">{{ $workflow->label }}</div>
-                    <h3 class="text-xl font-bold text-white mb-2">{{ $workflow->title }}</h3>
-                    <p class="text-sm text-zinc-400">{{ $workflow->description }}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
-
 </section>
 @endsection
