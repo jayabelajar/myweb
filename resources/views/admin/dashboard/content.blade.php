@@ -54,22 +54,22 @@
     </div>
 
     <aside class="bg-zinc-900/20 border border-white/5 rounded-2xl p-5 sm:p-6">
-        <h2 class="text-sm uppercase tracking-widest text-white mb-4">Shortcut</h2>
+        <h2 class="text-sm uppercase tracking-widest text-white mb-4">Aksi Cepat</h2>
         <div class="space-y-3">
-            <a href="{{ route('admin.blog.create') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
-                <span class="text-sm text-zinc-200">Buat Blog Post</span>
+            <a href="{{ route('admin.blog.index') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
+                <span class="text-sm text-zinc-200">Kelola Blog Post</span>
                 <span class="text-xs uppercase tracking-widest text-sky-400">Go</span>
             </a>
-            <a href="{{ route('admin.projects.create') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
-                <span class="text-sm text-zinc-200">Tambah Project</span>
+            <a href="{{ route('admin.projects.index') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
+                <span class="text-sm text-zinc-200">Kelola Project</span>
                 <span class="text-xs uppercase tracking-widest text-sky-400">Go</span>
             </a>
-            <a href="{{ route('admin.services.create') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
-                <span class="text-sm text-zinc-200">Tambah Service</span>
+            <a href="{{ route('admin.services.index') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
+                <span class="text-sm text-zinc-200">Kelola Service</span>
                 <span class="text-xs uppercase tracking-widest text-sky-400">Go</span>
             </a>
-            <a href="{{ route('admin.testimonials.create') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
-                <span class="text-sm text-zinc-200">Tambah Testimonial</span>
+            <a href="{{ route('admin.testimonials.index') }}" class="flex items-center justify-between rounded-xl border border-white/5 px-4 py-3 hover:border-white/15 transition-colors">
+                <span class="text-sm text-zinc-200">Kelola Testimonial</span>
                 <span class="text-xs uppercase tracking-widest text-sky-400">Go</span>
             </a>
         </div>
