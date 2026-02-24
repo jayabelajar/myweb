@@ -1,12 +1,14 @@
 <div>
-    <div class="inline-flex mb-6 px-4 py-1.5 border border-white/10 bg-white/5 rounded-full backdrop-blur-md animate-fade-in-up mx-auto">
-        <span class="text-[11px] font-mono text-zinc-300 tracking-wider uppercase flex items-center gap-2">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+    <div class="w-full flex justify-center">
+        <div class="inline-flex mb-6 px-4 py-1.5 border border-white/10 bg-white/5 rounded-full backdrop-blur-md animate-fade-in-up">
+            <span class="text-[11px] font-mono text-zinc-300 tracking-wider uppercase flex items-center gap-2">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                </span>
+                Open for new work
             </span>
-            Open for new work
-        </span>
+        </div>
     </div>
 
     <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-6 text-white text-center max-w-5xl mx-auto reveal-up" data-reveal>

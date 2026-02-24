@@ -20,10 +20,29 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @foreach ($services as $service)
+            @php
+                $image = $service->image;
+                $imageUrl = null;
+                if ($image) {
+                    if (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://', '//'])) {
+                        $imageUrl = $image;
+                    } elseif (\Illuminate\Support\Str::startsWith($image, ['/'])) {
+                        $imageUrl = asset(ltrim($image, '/'));
+                    } else {
+                        $imageUrl = asset('storage/' . $image);
+                    }
+                }
+            @endphp
             <div class="group relative p-6 bg-zinc-900/30 border border-white/5 rounded-2xl hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 reveal-up" data-reveal>
                 <div class="relative h-24 rounded-xl overflow-hidden border border-white/5 mb-4">
                     <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-sky-500/10"></div>
-                    <img src="{{ $service->image }}" alt="{{ $service->title }}" class="w-full h-full object-cover opacity-90">
+                    @if ($imageUrl)
+                        <img src="{{ $imageUrl }}" alt="{{ $service->title }}" class="w-full h-full object-cover opacity-90">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-zinc-500 bg-zinc-900/40">
+                            {{ $service->label }}
+                        </div>
+                    @endif
                 </div>
                 <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-2">{{ $service->label }}</div>
                 <h3 class="text-lg font-semibold text-white mb-2">{{ $service->title }}</h3>

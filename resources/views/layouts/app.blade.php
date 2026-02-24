@@ -130,7 +130,7 @@
                     'font-semibold text-white bg-white/10 shadow-sm' => request()->routeIs('services'),
                     'font-medium text-zinc-400 hover:text-white hover:bg-white/5' => !request()->routeIs('services'),
                 ])>
-                    Services
+                    Pricing
                 </a>
                 <a href="{{ route('teams') }}" @class([
                     'px-5 py-2 text-xs uppercase tracking-widest rounded-full transition-all',
@@ -207,7 +207,7 @@
                     'text-white font-semibold' => request()->routeIs('services'),
                     'text-zinc-400 font-medium hover:text-white' => !request()->routeIs('services'),
                 ])>
-                    <span>Services</span>
+                    <span>Pricing</span>
                     <span class="text-zinc-600 group-hover:text-white transition-colors">&rarr;</span>
                 </a>
                 <a href="{{ route('teams') }}" @class([
@@ -303,7 +303,7 @@
                     <h3 class="text-white font-semibold text-xs uppercase tracking-widest mb-6">Company</h3>
                     <ul class="flex flex-col gap-3 text-sm text-zinc-500">
                         <li><a href="{{ route('projects') }}" class="hover:text-white transition-colors duration-200">Projects</a></li>
-                        <li><a href="{{ route('services') }}" class="hover:text-white transition-colors duration-200">Services</a></li>
+                        <li><a href="{{ route('services') }}" class="hover:text-white transition-colors duration-200">Pricing</a></li>
                         <li><a href="{{ route('teams') }}" class="hover:text-white transition-colors duration-200">Teams</a></li>
                         <li><a href="{{ route('blog') }}" class="hover:text-white transition-colors duration-200">Blog</a></li>
                         <li><a href="{{ route('contact') }}" class="hover:text-white transition-colors duration-200">Contact</a></li>
