@@ -12,12 +12,23 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('category')
+        $query = Post::with('category')
             ->orderByDesc('published_at')
-            ->orderByDesc('created_at')
-            ->paginate(12);
+            ->orderByDesc('created_at');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhereHas('category', function($q2) use ($search) {
+                      $q2->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $posts = $query->paginate(12)->appends(['search' => $request->search]);
 
         return view('admin.blog.index', [
             'title' => 'Blog Posts',

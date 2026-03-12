@@ -304,15 +304,7 @@
                                     <path d="M3 18h18"></path>
                                 </svg>
                             </button>
-                            <div class="relative w-64">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
-                                    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="7"></circle>
-                                        <path d="M21 21l-4.3-4.3"></path>
-                                    </svg>
-                                </span>
-                                <input type="text" placeholder="Search..." class="w-full rounded-full bg-black/40 border border-white/10 pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/30" />
-                            </div>
+
                         </div>
                     </div>
                     <div class="flex items-center gap-2 sm:gap-3 ml-auto justify-end">

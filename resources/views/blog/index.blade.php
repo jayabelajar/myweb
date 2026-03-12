@@ -22,19 +22,19 @@
     </div>
 
     <div class="w-full max-w-3xl mx-auto mb-12 reveal-up" data-reveal data-reveal-delay="120">
-        <div class="relative">
-            <input type="text" placeholder="Cari artikel, topik, atau kata kunci..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-6 py-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
-            <span class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-500">
+        <form action="{{ route('blog') }}" method="GET" class="relative">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari artikel, topik, atau kata kunci..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-6 py-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
+            <button type="submit" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors">
                 <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="7"></circle>
                     <path d="M20 20l-3.5-3.5"></path>
                 </svg>
-            </span>
-        </div>
+            </button>
+        </form>
     </div>
 
     <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto mb-10 reveal-up" data-reveal>
-        @foreach ($posts as $post)
+        @forelse ($posts as $post)
             <article class="group relative bg-zinc-900/20 border border-white/5 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
                 <a href="{{ route('blog.show', $post->slug) }}" class="block">
                     <div class="relative">
@@ -77,7 +77,11 @@
                     <div class="absolute -top-6 right-8 w-24 h-24 bg-sky-500/10 blur-[60px]"></div>
                 </div>
             </article>
-        @endforeach
+        @empty
+            <div class="col-span-full text-center py-12">
+                <p class="text-zinc-500">Tidak ada artikel yang cocok dengan pencarian Anda.</p>
+            </div>
+        @endforelse
     </div>
 
     <div class="flex justify-center mb-16 reveal-up" data-reveal>
