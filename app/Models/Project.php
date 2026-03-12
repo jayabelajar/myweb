@@ -14,6 +14,7 @@ class Project extends Model
         'slug',
         'category',
         'description',
+        'content',
         'image',
         'stack',
         'link',

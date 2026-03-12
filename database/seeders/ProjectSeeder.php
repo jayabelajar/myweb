@@ -112,6 +112,9 @@ class ProjectSeeder extends Seeder
         ];
 
         foreach ($projects as $project) {
+            if (!isset($project['content'])) {
+                $project['content'] = 'Proyek ini adalah contoh nyata bagaimana kami mengkombinasikan desain antarmuka modern dengan arsitektur sistem yang handal. Kami berfokus pada pengalaman pengguna yang intuitif, skalabilitas, dan performa tinggi untuk mendukung kebutuhan bisnis di era digital.';
+            }
             Project::updateOrCreate(
                 ['slug' => $project['slug']],
                 $project

@@ -12,6 +12,7 @@
 </div>
 
 <x-admin.table :headers="[
+    ['label' => 'Image'],
     ['label' => 'Title'],
     ['label' => 'Category'],
     ['label' => 'Stack'],
@@ -19,6 +20,13 @@
 ]">
     @forelse ($projects as $project)
         <tr class="hover:bg-white/5">
+            <td class="px-4 py-3">
+                @if($project->image)
+                    <img src="{{ \Illuminate\Support\Str::startsWith($project->image, ['http://', 'https://', '//']) ? $project->image : asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="w-16 h-10 object-cover rounded border border-white/10">
+                @else
+                    <div class="w-16 h-10 bg-zinc-800 rounded flex items-center justify-center text-[10px] text-zinc-500 border border-white/10">No Img</div>
+                @endif
+            </td>
             <td class="px-4 py-3 text-white font-semibold">{{ $project->title }}</td>
             <td class="px-4 py-3 text-zinc-400">{{ $project->category }}</td>
             <td class="px-4 py-3 text-zinc-500">
@@ -36,7 +44,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="4" class="px-4 py-8 text-center text-zinc-500">Belum ada project.</td>
+            <td colspan="5" class="px-4 py-8 text-center text-zinc-500">Belum ada project.</td>
         </tr>
     @endforelse
 </x-admin.table>

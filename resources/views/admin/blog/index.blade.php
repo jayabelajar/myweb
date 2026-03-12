@@ -8,14 +8,23 @@
     </div>
     
     <div class="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
-        <form action="{{ route('admin.blog.index') }}" method="GET" class="relative w-full sm:w-64">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau kategori..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-4 py-2 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
-            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors">
-                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="7"></circle>
-                    <path d="M20 20l-3.5-3.5"></path>
-                </svg>
-            </button>
+        <form action="{{ route('admin.blog.index') }}" method="GET" id="adminBlogSearchForm" class="relative w-full sm:w-64">
+            <input type="text" name="search" id="adminBlogSearchInput" value="{{ request('search') }}" placeholder="Cari judul atau kategori..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-4 py-2 pr-16 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                @if(request('search'))
+                    <a href="{{ route('admin.blog.index') }}" class="text-zinc-500 hover:text-red-400 transition-colors p-1" title="Reset Search">
+                        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"></path>
+                        </svg>
+                    </a>
+                @endif
+                <button type="submit" class="text-zinc-500 hover:text-white transition-colors p-1">
+                    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-3.5-3.5"></path>
+                    </svg>
+                </button>
+            </div>
         </form>
 
         <a href="{{ route('admin.blog.create') }}" data-drawer-url="{{ route('admin.blog.create', ['drawer' => 1]) }}" data-drawer-title="New Post" class="inline-flex w-full sm:w-auto items-center justify-center rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-widest text-zinc-300 hover:text-white hover:border-white/30 whitespace-nowrap">
@@ -55,4 +64,17 @@
 <div class="mt-6">
     {{ $posts->links() }}
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('adminBlogSearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    window.location.href = "{{ route('admin.blog.index') }}";
+                }
+            });
+        }
+    });
+</script>
 @endsection

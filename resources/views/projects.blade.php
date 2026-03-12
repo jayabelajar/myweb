@@ -35,9 +35,16 @@
                     <div class="text-xs font-mono text-sky-400 uppercase tracking-widest mb-3">{{ $project->category }}</div>
                     <h3 class="text-xl font-bold text-white mb-2">{{ $project->title }}</h3>
                     <p class="text-sm text-zinc-400 mb-6">{{ $project->description }}</p>
-                    <a href="{{ $project->link ?? '#' }}" class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-sky-400 hover:text-sky-300 mb-6">
-                        View Project <span class="text-sm">&rarr;</span>
-                    </a>
+                    <div class="flex items-center gap-4 mb-6">
+                        <a href="{{ route('projects.show', $project->slug) }}" class="inline-flex items-center justify-center px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-white hover:bg-white/10 hover:border-white/20 transition-all">
+                            Detail Project
+                        </a>
+                        @if ($project->link)
+                            <a href="{{ $project->link }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-sky-400 hover:text-sky-300 transition-colors">
+                                Live View <span class="text-lg leading-none">&rarr;</span>
+                            </a>
+                        @endif
+                    </div>
                     <div class="flex flex-wrap gap-2 text-[10px] uppercase tracking-widest text-zinc-500">
                         @foreach ($project->stack ?? [] as $tech)
                             <span class="px-2 py-1 border border-white/10 rounded-full">{{ $tech }}</span>

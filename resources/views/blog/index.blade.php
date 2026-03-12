@@ -22,14 +22,24 @@
     </div>
 
     <div class="w-full max-w-3xl mx-auto mb-12 reveal-up" data-reveal data-reveal-delay="120">
-        <form action="{{ route('blog') }}" method="GET" class="relative">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari artikel, topik, atau kata kunci..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-6 py-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60">
-            <button type="submit" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white transition-colors">
-                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="7"></circle>
-                    <path d="M20 20l-3.5-3.5"></path>
-                </svg>
-            </button>
+        <form action="{{ route('blog') }}" method="GET" id="blogSearchForm" class="relative">
+            <input type="text" name="search" id="blogSearchInput" value="{{ request('search') }}" placeholder="Cari artikel, topik, atau kata kunci..." class="w-full rounded-full border border-white/10 bg-zinc-900/50 px-6 py-4 pr-24 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-sky-400/60 transition-all">
+            
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                @if(request('search'))
+                    <a href="{{ route('blog') }}" class="text-zinc-500 hover:text-red-400 transition-colors p-1" title="Reset Search">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"></path>
+                        </svg>
+                    </a>
+                @endif
+                <button type="submit" class="text-zinc-500 hover:text-white transition-colors p-1">
+                    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-3.5-3.5"></path>
+                    </svg>
+                </button>
+            </div>
         </form>
     </div>
 
@@ -99,6 +109,16 @@
     document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('blog-grid');
         const btn = document.getElementById('blog-load');
+        const searchInput = document.getElementById('blogSearchInput');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() === '') {
+                    window.location.href = "{{ route('blog') }}";
+                }
+            });
+        }
+
         if (!grid || !btn) return;
 
         const cards = Array.from(grid.children);

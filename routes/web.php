@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialControll
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');
 Route::redirect('/services', '/pricing', 301);
 Route::get('/pricing', [ServiceController::class, 'index'])->name('services');
 Route::get('/teams', [TeamController::class, 'index'])->name('teams');

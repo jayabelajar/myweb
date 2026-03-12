@@ -32,8 +32,13 @@
             <p class="mt-2 text-[11px] text-zinc-500">Upload gambar, maks 4MB.</p>
         </div>
         <div class="md:col-span-2">
-            <label class="text-xs uppercase tracking-widest text-zinc-500">Description</label>
-            <textarea name="description" rows="4" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>{{ old('description') }}</textarea>
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Description (Short)</label>
+            <textarea name="description" rows="2" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" required>{{ old('description') }}</textarea>
+        </div>
+        <div class="md:col-span-2">
+            <label class="text-xs uppercase tracking-widest text-zinc-500">Content (Markdown)</label>
+            <textarea name="content" rows="6" class="mt-2 w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white" placeholder="Tulis detail panjang proyek di sini...">{{ old('content') }}</textarea>
+            <p class="mt-2 text-[11px] text-zinc-500">Gunakan Markdown untuk format text.</p>
         </div>
         <div class="md:col-span-2">
             <label class="text-xs uppercase tracking-widest text-zinc-500">Stack (comma separated)</label>
